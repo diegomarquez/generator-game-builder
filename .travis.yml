@@ -1,8 +1,0 @@
-language: node_js
-node_js:
-  - '0.8'
-  - '0.10'
-before_install:
-  - currentfolder=${PWD##*/}
-  - if [ "$currentfolder" != 'generator-canvas-game-scaffold' ]; then cd .. && eval "mv $currentfolder generator-canvas-game-scaffold" && cd generator-canvas-game-scaffold; fi
-
