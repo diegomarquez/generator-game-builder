@@ -1,0 +1,46 @@
+{
+  "name": "generator-game-builder",
+  "version": "0.0.0",
+  "description": "A generator for Yeoman",
+  "keywords": [
+    "yeoman-generator",
+    "game",
+    "builder",
+    "html5",
+    "canvas"
+  ],
+  "author": {
+    "name": "Diego Enrique Marquez",
+    "email": "marquez.diego.e@gmail.com",
+    "url": "https://github.com/diegomarquez"
+  },
+  "main": "app/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/diegomarquez/generator-game-builder.git"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "yeoman-generator": "~0.13.0",
+    "rimraf": "~2.2.4",
+    "lodash": "~2.4.1"
+  },
+  "devDependencies": {
+    "mocha": "~1.12.0",
+    "grunt": "~0.4.2"
+  },
+  "peerDependencies": {
+    "yo": ">=1.0.0"
+  },
+  "engines": {
+    "node": ">=0.8.0",
+    "npm": ">=1.2.10"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ]
+}

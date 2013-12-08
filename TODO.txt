@@ -1,0 +1,4 @@
+Framework components templates
+Add some more initial questions.
+	Use framework master or tag?
+	
