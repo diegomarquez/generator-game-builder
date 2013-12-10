@@ -1,4 +1,5 @@
+Use the options from those checkboxes to generate main.js
+
+Once tag 0.1.0 exists, set as default option
+
 Framework components templates
-Add some more initial questions.
-	Use framework master or tag?
-	

@@ -9,6 +9,8 @@
   	"width": "<%= width %>",
   	"height": "<%= height %>" 
   },
+
+  "frameworkTag": "<%= frameworkTag %>",
   
   "dependencies": {
     "grunt": "~0.4.2",

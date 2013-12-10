@@ -60,6 +60,33 @@ GameBuilderGenerator.prototype.askFor = function askFor() {
       name: "height",
       message: "What will the height of the canvas be?",
       default: 300
+    },
+
+    {
+      type: 'list',
+      name: "frameworkTag",
+      message: "Which branch of game-builder would you like to use?",
+      choices: ['0.1.0', 'master'],
+      default: 1
+    },  
+
+    {
+      type: 'checkbox',
+      name: "extensions",
+      message: "Which extensions would you like to use? (Space bar to check option)",
+      choices: [{
+          name: "pause",
+          checked: true
+        },{
+          name: "resume",
+          checked: true
+        },{
+          name: "basic_layer_setup",
+          checked: true
+        },{
+          name: "aspect_ratio_resize",
+        }
+      ]
     }
   ];
 
