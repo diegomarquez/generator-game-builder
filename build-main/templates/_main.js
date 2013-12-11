@@ -7,8 +7,6 @@ define(['gb'], function(gb){
 	var game = gb.game;
 	var root = gb.root;
 
-	//This extensions are code that is generic enough to be on their own module.
-	//Not generic enough to be on the core of game-builder, thought.
 	<% _.forEach(extensions, function(extension) { %>game.add_extension(require("<%= extension %>"));
 	<% }); %>
 	// This is the main initialization function

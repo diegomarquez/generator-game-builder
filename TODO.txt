@@ -1,5 +1,5 @@
-Use the options from those checkboxes to generate main.js
+Once tag 0.1.0 of game-builder exists, set as default option
 
-Once tag 0.1.0 exists, set as default option
+ASCII art for the intro
 
 Framework components templates

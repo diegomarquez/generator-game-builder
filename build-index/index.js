@@ -6,21 +6,25 @@ var _ = require('lodash');
 var BuildIndexGenerator = module.exports = function BuildIndexGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
 
-  args.push('framework');
-  args.push('src');
-  args.push('lib');
-
-  this.srcDirectories = args.join(',');	
+  this.args = args;
 
   this.mainDivStructure = this.readFileAsString(process.cwd() + '/main.html');
 
   _.assign(this, JSON.parse(this.readFileAsString(process.cwd() + '/package.json')));
+
+  args.push(this.frameworkLocation + 'game-builder');
+  args.push('src');
+  args.push('lib');
 };
 
 util.inherits(BuildIndexGenerator, yeoman.generators.Base);
 
 BuildIndexGenerator.prototype.buildConfiguration = function buildConfiguration() {
-  var files = this.expandFiles('{'.concat(this.srcDirectories).concat('}/**/*.js'));
+  var files = [];
+
+  for(var i=0; i<this.args.length; i++) {
+    files = files.concat(this.expandFiles(this.args[i] + '/**/*.js')); 
+  }
 
   this.paths = [];
 

@@ -7,14 +7,19 @@ var dir_remover = require('../helpers/remove')();
 
 var GetFrameworkGenerator = module.exports = function GetFrameworkGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
+
+  _.assign(this, JSON.parse(this.readFileAsString(process.cwd() + '/package.json')));
 };
 
 util.inherits(GetFrameworkGenerator, yeoman.generators.Base);
 
 GetFrameworkGenerator.prototype.setup = function setup() {  
-	dir_remover.remove([process.cwd() + '/game-builder'], this.async());
+	dir_remover.remove([
+      process.cwd() + '/' + this.frameworkLocation + 'game-builder'
+    ], 
+  this.async());
 
-	this.mkdir('./game-builder');
+	this.mkdir(this.frameworkLocation + 'game-builder');
 
 	_.assign(this, JSON.parse(this.readFileAsString(process.cwd() + '/package.json')));
 }
@@ -22,10 +27,12 @@ GetFrameworkGenerator.prototype.setup = function setup() {
 GetFrameworkGenerator.prototype.getFramework = function getFramework() {  
   var cb = this.async();
   
+  var self = this;
+
   this.remote('diegomarquez', 'game', this.frameworkTag, function (err, remote) {
       if (err) return cb(err);
  	
-      remote.directory('./src', './game-builder');
+      remote.directory('./src', self.frameworkLocation + 'game-builder');
       cb();
     }, true);
 };

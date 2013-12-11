@@ -5,6 +5,8 @@
   
   "additionalSrcPaths": [ ],
 
+  "frameworkLocation": "<%= frameworkLocation %>",
+
   "size": {
   	"width": "<%= width %>",
   	"height": "<%= height %>" 
