@@ -61,7 +61,7 @@ GameBuilderGenerator.prototype.generatorType = function generatorType() {
      .font( ' .v1', 'smslant', 'yellow', function(rendered){
 
     console.log(rendered);
-    console.log('A ' + 'generator by ' + 'Diego Enrique Marquez'.red.bold + ' (https://github.com/diegomarquez)');
+    console.log('A generator by ' + 'Diego Enrique Marquez'.red.bold + ' (https://github.com/diegomarquez)');
     console.log('Powered by ' + 'Yeoman'.yellow.bold + ' (http://yeoman.io/)');
     console.log();
 
@@ -102,21 +102,23 @@ GameBuilderGenerator.prototype.generatorType = function generatorType() {
 };
 
 GameBuilderGenerator.prototype.downloadFramework = function downloadFramework() {
-  var customizePompts = [{
-    type: 'list',
-    name: "frameworkTag",
-    message: "Which branch of game-builder would you like to use?",
-    choices: ['0.1.0', 'master'],
-    default: 1
-  },  
+  if (!this.defaultGeneration) {
+    var customizePompts = [{
+      type: 'list',
+      name: "frameworkTag",
+      message: "Which branch of game-builder would you like to use?",
+      choices: ['0.1.0', 'master'],
+      default: 1
+    },  
 
-  {
-    name: "frameworkLocation",
-    message: "Where would you like game-builder to be downloaded to?",
-    default: "./"
-  }];
+    {
+      name: "frameworkLocation",
+      message: "Where would you like game-builder to be downloaded to?",
+      default: "./"
+    }];
 
-  this._processPrompt(customizePompts, this.async());
+    this._processPrompt(customizePompts, this.async());  
+  }
 }
 
 GameBuilderGenerator.prototype.createFolderStructure = function folderStructure() {

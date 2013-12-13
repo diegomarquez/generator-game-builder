@@ -54,10 +54,10 @@ BuildMainGenerator.prototype.buildMain = function buildMain() {
   	return;
   }
 
-  this._message();
-
   if(!this.args[0].defaultGeneration) {
-    var extensions = this.expandFiles(this.frameworkLocation + 'game-builder/src/game_canvas/extensions/**/*.js');
+    this._message();
+
+    var extensions = this.expandFiles(this.frameworkLocation + this.frameworkFolderName + '/src/game_canvas/extensions/**/*.js');
     
     var extensionChoices = _.map(extensions, function(extension){
       return {
