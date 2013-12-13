@@ -3,8 +3,12 @@ var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
 var _ = require('lodash');
+var art = require('ascii-art');
+var color = require('colors');
 
 var installWrapper = require('../helpers/install_wrapper')();
+
+art.Figlet.fontPath = __dirname + '/../fonts/';
 
 var GameBuilderGenerator = module.exports = function GameBuilderGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
@@ -47,42 +51,54 @@ GameBuilderGenerator.prototype._processPrompt = function _processPrompt(prompts,
 }
 
 GameBuilderGenerator.prototype.generatorType = function generatorType() {
-  // Have Yeoman greet the user.
-  console.log(this.yeoman);
+  var cb = this.async();
 
-  this.frameworkTag = 'master';
-  this.extensions = ['pause', 'resume', 'basic_layer_setup'];
-  this.frameworkLocation = './';
-  this.additionalSrcPaths = [];
-  this.askForFramework = false;
+  console.log('Hello, welcome too...');
 
-  var prompts = [
-    {
-      name: "name",
-      message: "What will the name of your project be?"
-    },
+  art.font('GAME', 'smslant', 'red')
+     .font('-', 'smslant', 'yellow')
+     .font('BUILDER', 'smslant', 'red')
+     .font( ' .v1', 'smslant', 'yellow', function(rendered){
 
-    {
-      name: "width",
-      message: "What will the width of the canvas be?",
-      default: 400
-    },
+    console.log(rendered);
+    console.log('A ' + 'generator by ' + 'Diego Enrique Marquez'.red.bold + ' (https://github.com/diegomarquez)');
+    console.log('Powered by ' + 'Yeoman'.yellow.bold + ' (http://yeoman.io/)');
+    console.log();
 
-    {
-      name: "height",
-      message: "What will the height of the canvas be?",
-      default: 300
-    },
+    this.frameworkTag = 'master';
+    this.extensions = ['pause', 'resume', 'basic_layer_setup'];
+    this.frameworkLocation = './';
+    this.additionalSrcPaths = [];
+    this.askForFramework = false;
 
-    {
-      type: 'confirm',
-      name: 'defaultGeneration',
-      message: "Generate with default arguments?",
-      default: true
-    }
-  ];
+    var prompts = [
+      {
+        name: "name",
+        message: "What will the name of your project be?"
+      },
 
-  this._processPrompt(prompts, this.async());
+      {
+        name: "width",
+        message: "What will the width of the canvas be?",
+        default: 400
+      },
+
+      {
+        name: "height",
+        message: "What will the height of the canvas be?",
+        default: 300
+      },
+
+      {
+        type: 'confirm',
+        name: 'defaultGeneration',
+        message: "Generate with default arguments?",
+        default: true
+      }
+    ];
+
+    this._processPrompt(prompts, cb);
+  }.bind(this));
 };
 
 GameBuilderGenerator.prototype.downloadFramework = function downloadFramework() {
