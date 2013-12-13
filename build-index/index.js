@@ -12,7 +12,7 @@ var BuildIndexGenerator = module.exports = function BuildIndexGenerator(args, op
 
   _.assign(this, JSON.parse(this.readFileAsString(process.cwd() + '/package.json')));
 
-  args.push(this.frameworkLocation + 'game-builder');
+  args.push(this.frameworkLocation + 'game-builder/src');
   args.push('src');
   args.push('lib');
 };

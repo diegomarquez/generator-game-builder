@@ -3,6 +3,7 @@ var util = require('util');
 var yeoman = require('yeoman-generator');
 var _ = require('lodash');
 
+
 var dir_remover = require('../helpers/remove')();
 
 var GetFrameworkGenerator = module.exports = function GetFrameworkGenerator(args, options, config) {
@@ -32,7 +33,7 @@ GetFrameworkGenerator.prototype.getFramework = function getFramework() {
   this.remote('diegomarquez', 'game', this.frameworkTag, function (err, remote) {
       if (err) return cb(err);
  	
-      remote.directory('./src', self.frameworkLocation + 'game-builder');
+      remote.directory('./', self.frameworkLocation + 'game-builder');
       cb();
     }, true);
 };

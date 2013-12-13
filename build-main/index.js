@@ -2,6 +2,7 @@
 var util = require('util');
 var yeoman = require('yeoman-generator');
 var _ = require('lodash');
+var colors = require('colors');
 
 var BuildMainGenerator = module.exports = function BuildMainGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
@@ -22,27 +23,41 @@ BuildMainGenerator.prototype._processPrompt = function _processPrompt(prompts, c
   }.bind(this));
 }
 
+BuildMainGenerator.prototype._block = function _block() {
+  return !this.args[0] || (!this.args[0].hasOwnProperty('defaultGeneration') || !this.args[0].hasOwnProperty('extensions')) 
+}
+
+BuildMainGenerator.prototype._notAvailableMessage = function _notAvailable() {
+  console.log();
+  console.log('This subgenerator does nothing outside of the main generator workflow.'.red);
+  console.log('It exists solely to be used as a hook that is able to prompt.'.red);
+  console.log();
+  console.log('If you know of a better way of having prompts scattered through a generator, let me know.'.grey);
+  console.log('marquez.diego.e@gmail.com'.grey);
+  console.log();
+}
+
+BuildMainGenerator.prototype._message = function _message() {
+  console.log();
+  console.log('--------------------------------------------------'.cyan);
+  console.log('----------'.cyan + ' Add Extensions Sub Generator '.grey.bold + '----------'.cyan);
+  console.log('--------------------------------------------------'.cyan);
+  console.log();
+}
+
 BuildMainGenerator.prototype.buildMain = function buildMain() {
   var cb = this.async();
 
-  console.log('------------------------------------');
-  console.log('---------- Add Extensions ----------')
-  console.log('------------------------------------');
-
-  if(!this.args[0]) {
+  if(this._block()) {
   	cb();
-  	console.log('This subgenerator does nothing outside of the main generator');
+  	this._notAvailableMessage();
   	return;
-  }else {
-  	if(!this.args[0].hasOwnProperty('defaultGeneration') || !this.args[0].hasOwnProperty('extensions')){
-  		cb();
-  		console.log('This subgenerator does nothing outside of the main generator')
-  		return;
-  	}
   }
 
+  this._message();
+
   if(!this.args[0].defaultGeneration) {
-    var extensions = this.expandFiles(this.frameworkLocation + 'game-builder/game_canvas/extensions/**/*.js');
+    var extensions = this.expandFiles(this.frameworkLocation + 'game-builder/src/game_canvas/extensions/**/*.js');
     
     var extensionChoices = _.map(extensions, function(extension){
       return {
