@@ -7,6 +7,7 @@ var color = require('colors');
 
 var _ = require('lodash');
 _.str = require('underscore.string');
+_.mixin(_.str.exports());
 
 var installWrapper = require('../helpers/install_wrapper')();
 

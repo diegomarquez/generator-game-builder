@@ -7,11 +7,11 @@ define(function(require) {
 
 	//Insert require calls to other modules this bundle will use here
 
-	var <%= name %> = bundle.extend({
+	var <% print( _(name).classify() ) %> = bundle.extend({
 		create: function() {
 			//Add things to the goPool and coPool objects here			
 		}
 	});
 
-	return new <%= name %>();
+	return new <% print( _(name).classify() ) %>();
 });

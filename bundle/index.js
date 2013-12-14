@@ -4,6 +4,7 @@ var yeoman = require('yeoman-generator');
 
 var _ = require('lodash');
 _.str = require('underscore.string');
+_.mixin(_.str.exports());
 
 var BundleGenerator = module.exports = function BundleGenerator(args, options, config) {
   yeoman.generators.NamedBase.apply(this, arguments);
@@ -13,5 +14,5 @@ var BundleGenerator = module.exports = function BundleGenerator(args, options, c
 util.inherits(BundleGenerator, yeoman.generators.NamedBase);
 
 BundleGenerator.prototype.files = function files() {
-  this.template('_bundle.js', 'somefile.js');
+  this.template('_bundle.js', this.name + '.js');
 };
