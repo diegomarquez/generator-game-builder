@@ -1,9 +1,8 @@
 // <%= name %>'s main entry point 
 
-// The 'gb' module in turns loads the main dependencies of game-builder.
-// Since all of them work together, it's better to have a single module load them all.
-define(['gb'], function(gb){
-	// Typing gb.'something' for everything can make things look messy.
+define(function(require){
+	var gb = require('gb');
+	
 	var game = gb.game;
 	var root = gb.root;
 
@@ -14,12 +13,12 @@ define(['gb'], function(gb){
 		console.log("Welcome to Game-Builder!");
 	});
 
-	// This called when the game is paused
+	// This is called when the canvas looses focus
 	game.on("pause", this, function() {
 		console.log("<%= name %> is now paused");
 	});
 
-	// This called when the game is resumed
+	// This is called when the canvas regains focus
 	game.on("resume", this, function() {
 		console.log("<%= name %> resumes action");
 	});
