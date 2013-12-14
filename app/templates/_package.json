@@ -7,7 +7,7 @@
 
   "frameworkLocation": "<%= frameworkLocation %>",
 
-  "frameworkFolderName": "<%= name %>-game-builder",
+  "frameworkFolderName": "<%= frameworkFolderName %>",
 
   "size": {
   	"width": "<%= width %>",

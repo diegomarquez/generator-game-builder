@@ -4,7 +4,7 @@ module.exports = function(grunt) {
 
   	shell: {
   		yo: {
-  			command: 'yo canvas-game-scaffold:build-setup --force <%= pkg.additionalSrcPaths %>'
+  			command: 'yo game-builder:build-index --force <%= pkg.additionalSrcPaths %>'
   		}
   	},
 
@@ -18,7 +18,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-open');
 
-  grunt.registerTask('default', ['shell:yo', 'open:index']);
-  grunt.registerTask('refresh', ['shell:yo', 'open:index']);
+  grunt.registerTask('refresh', ['shell:yo']);
   grunt.registerTask('run', ['open:index']);
+
+  grunt.registerTask('default', ['refresh', 'run']);
 };

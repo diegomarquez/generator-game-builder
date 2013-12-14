@@ -2,9 +2,11 @@
 var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
-var _ = require('lodash');
 var art = require('ascii-art');
 var color = require('colors');
+
+var _ = require('lodash');
+_.str = require('underscore.string');
 
 var installWrapper = require('../helpers/install_wrapper')();
 
@@ -74,7 +76,10 @@ GameBuilderGenerator.prototype.generatorType = function generatorType() {
     var prompts = [
       {
         name: "name",
-        message: "What will the name of your project be?"
+        message: "What will the name of your project be?",
+        filter: function(name) { 
+          return _(name).trim().slugify(); 
+        }
       },
 
       {
@@ -103,25 +108,39 @@ GameBuilderGenerator.prototype.generatorType = function generatorType() {
 
 GameBuilderGenerator.prototype.downloadFramework = function downloadFramework() {
   if (!this.defaultGeneration) {
-    var customizePompts = [{
-      type: 'list',
-      name: "frameworkTag",
-      message: "Which branch of game-builder would you like to use?",
-      choices: ['0.1.0', 'master'],
-      default: 1
-    },  
+    var customizePompts = [
+      {
+        type: 'list',
+        name: "frameworkTag",
+        message: "Which branch of game-builder would you like to use?",
+        choices: ['latest', 'master'],
+        default: 1
+      },  
 
-    {
-      name: "frameworkLocation",
-      message: "Where would you like game-builder to be downloaded to?",
-      default: "./"
-    }];
+      {
+        name: "frameworkLocation",
+        message: "What will be the root of game-builder?",
+        default: "./"
+      },
+
+      {
+        name: "frameworkFolderName",
+        message: "What should the name of game-builder's folder be?",
+        default: "game-builder"
+      }
+    ];
 
     this._processPrompt(customizePompts, this.async());  
   }
 }
 
 GameBuilderGenerator.prototype.createFolderStructure = function folderStructure() {
+  this.mkdir('assets');
+  this.mkdir('assets/images');
+  this.mkdir('assets/sounds');
+  this.mkdir('assets/sounds/sfx');
+  this.mkdir('assets/sounds/bgm');
+
   this.mkdir('src');
   this.mkdir('styles');  
 };
