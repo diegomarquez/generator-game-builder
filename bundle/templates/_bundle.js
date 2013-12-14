@@ -4,6 +4,7 @@ define(function(require) {
 	
 	var goPool = gb.goPool;
 	var coPool = gb.coPool;
+	var canvas = gb.canvas;
 
 	//Insert require calls to other modules this bundle will use here
 
