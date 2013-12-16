@@ -5,6 +5,8 @@
   
   "additionalSrcPaths": [ ],
 
+  "additionalAssetPaths": [ ],
+
   "frameworkLocation": "<%= frameworkLocation %>",
 
   "frameworkFolderName": "<%= frameworkFolderName %>",
