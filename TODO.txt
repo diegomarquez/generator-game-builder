@@ -1,3 +1,3 @@
-Once tag 0.1.0 of game-builder exists, set as default option
-
 Framework components templates
+
+Do them as I move the examples to the new structure.

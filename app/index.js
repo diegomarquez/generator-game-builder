@@ -68,7 +68,7 @@ GameBuilderGenerator.prototype.generatorType = function generatorType() {
     console.log('Powered by ' + 'Yeoman'.yellow.bold + ' (http://yeoman.io/)');
     console.log();
 
-    this.frameworkTag = 'master';
+    this.frameworkTag = 'latest';
     this.extensions = ['pause', 'resume', 'basic_layer_setup'];
     this.frameworkLocation = './';
     this.additionalSrcPaths = [];
@@ -115,7 +115,7 @@ GameBuilderGenerator.prototype.downloadFramework = function downloadFramework() 
         name: "frameworkTag",
         message: "Which branch of game-builder would you like to use?",
         choices: ['latest', 'master'],
-        default: 1
+        default: 0
       },  
 
       {
