@@ -1,16 +1,9 @@
-define(function(require) {
-	var gb = require('gb');
-	var bundle = require('bundle');
-	
-	var goPool = gb.goPool;
-	var coPool = gb.coPool;
-	var canvas = gb.canvas;
-
+define(function(require) {	
 	//Insert require calls to other modules this bundle will use here
 
-	var <% print( _(name).classify() ) %> = bundle.extend({
-		create: function() {
-			//Add things to the goPool and coPool objects here			
+	var <% print( _(name).classify() ) %> = require('bundle').extend({
+		create: function(args) {
+			//Add things to the gameObjectPool and componentPool objects here
 		}
 	});
 
