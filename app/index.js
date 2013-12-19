@@ -53,7 +53,7 @@ GameBuilderGenerator.prototype._processPrompt = function _processPrompt(prompts,
   }.bind(this));
 }
 
-GameBuilderGenerator.prototype.generatorType = function generatorType() {
+GameBuilderGenerator.prototype.inquire = function inquire() {
   var cb = this.async();
 
   console.log('Hello, welcome too...');
@@ -68,11 +68,18 @@ GameBuilderGenerator.prototype.generatorType = function generatorType() {
     console.log('Powered by ' + 'Yeoman'.yellow.bold + ' (http://yeoman.io/)');
     console.log();
 
-    this.frameworkTag = 'latest';
-    this.extensions = ['pause', 'resume', 'basic_layer_setup'];
-    this.frameworkLocation = './';
-    this.additionalSrcPaths = [];
-    this.askForFramework = false;
+    this.frameworkTag         = 'latest';
+    this.extensions           = ['pause', 'resume', 'basic_layer_setup'];
+    this.frameworkLocation    = './';
+    this.libLocation          = './';
+    this.additionalSrcPaths   = '';
+    this.additionalAssetPaths = '';
+    this.additionalLibPaths   = '';
+    this.frameworkFolderName  = 'game-builder'
+    this.libFolderName        = 'lib';
+
+    var isNotDefaultGeneration = function(answers) { return !answers.defaultGeneration; };
+    var addAdditionalPaths = function(answers) { return isNotDefaultGeneration(answers) && answers.additionalPaths; };
 
     var prompts = [
       {
@@ -100,6 +107,72 @@ GameBuilderGenerator.prototype.generatorType = function generatorType() {
         name: 'defaultGeneration',
         message: "Generate with default arguments?",
         default: true
+      },
+
+      {
+        type: 'list',
+        name: "frameworkTag",
+        message: "Which branch of game-builder would you like to use?",
+        choices: ['latest', 'master'],
+        default: 0,
+        when: isNotDefaultGeneration
+      },  
+
+      {
+        name: "frameworkLocation",
+        message: "What will be the root of game-builder?",
+        default: this.frameworkLocation,
+        when: isNotDefaultGeneration
+      },
+
+      {
+        name: "frameworkFolderName",
+        message: "What should the name of game-builder's folder be?",
+        default: this.frameworkFolderName,
+        when: isNotDefaultGeneration
+      },
+
+      {
+        name: "libLocation",
+        message: "Where should bower dependencies be downloaded?",
+        default: this.libLocation,
+        when: isNotDefaultGeneration
+      },
+
+      {
+        name: "libFolderName",
+        message: "What should the name of bower dependencies folder be?",
+        default: this.libFolderName,
+        when: isNotDefaultGeneration
+      },
+
+      {
+        type: 'confirm',
+        name: "additionalPaths",
+        message: "Would you like to add additional paths for reasources?",
+        default: false,
+        when: isNotDefaultGeneration
+      },
+
+      {
+        name: "additionalSrcPaths",
+        message: "What are the additional src paths? (Add more paths as a comma separate list)",
+        default: this.additionalSrcPaths,
+        when: addAdditionalPaths
+      },
+
+      {
+        name: "additionalAssetPaths",
+        message: "What are the additional asset paths? (Add more paths as a comma separate list)",
+        default: this.additionalAssetPaths,
+        when: addAdditionalPaths
+      },
+
+      {
+        name: "additionalLibPaths",
+        message: "What are the additional lib paths? (Add more paths as a comma separate list)",
+        default: this.additionalLibPaths,
+        when: addAdditionalPaths
       }
     ];
 
@@ -107,53 +180,32 @@ GameBuilderGenerator.prototype.generatorType = function generatorType() {
   }.bind(this));
 };
 
-GameBuilderGenerator.prototype.downloadFramework = function downloadFramework() {
-  if (!this.defaultGeneration) {
-    var customizePompts = [
-      {
-        type: 'list',
-        name: "frameworkTag",
-        message: "Which branch of game-builder would you like to use?",
-        choices: ['latest', 'master'],
-        default: 0
-      },  
-
-      {
-        name: "frameworkLocation",
-        message: "What will be the root of game-builder?",
-        default: "./"
-      },
-
-      {
-        name: "frameworkFolderName",
-        message: "What should the name of game-builder's folder be?",
-        default: "game-builder"
-      }
-    ];
-
-    this._processPrompt(customizePompts, this.async());  
-  }
-}
-
 GameBuilderGenerator.prototype.createFolderStructure = function folderStructure() {
   this.mkdir('assets');
-  this.mkdir('assets/images');
-  this.mkdir('assets/sounds');
-  this.mkdir('assets/sounds/sfx');
-  this.mkdir('assets/sounds/bgm');
-
   this.mkdir('src');
   this.mkdir('styles');  
+
+  _.forEach(this.additionalSrcPaths.split(','), function(path){
+    this.mkdir(path);
+  }.bind(this));
+
+  _.forEach(this.additionalAssetPaths.split(','), function(path){
+    this.mkdir(path);
+  }.bind(this));
+
+  _.forEach(this.additionalLibPaths.split(','), function(path){
+    this.mkdir(path);
+  }.bind(this));
 };
 
 GameBuilderGenerator.prototype.copyFiles = function projectfiles() {
   this.template('_package.json', 'package.json');
   this.template('_bower.json', 'bower.json');
   this.template('_README.md', 'README.md');
-  
-  this.copy('_main.html', 'main.html');
-  this.copy('.gitignore', '.gitignore');
-  this.copy('.bowerrc', '.bowerrc');
+  this.template('_.bowerrc', '.bowerrc');
+
+  this.copy('main.html', 'main.html');
   this.copy('main.css', 'styles/main.css');
+  this.copy('.gitignore', '.gitignore');
   this.copy('Gruntfile.js', 'Gruntfile.js');
 };

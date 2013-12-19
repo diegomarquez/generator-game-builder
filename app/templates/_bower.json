@@ -6,11 +6,9 @@
     "requirejs-domready": "*"
   },
   "ignore": [
-    "**/.*",
     "node_modules",
-    "bower_components",
     "test",
     "tests",
-    "lib"
+    "<%= libLocation %><%= libFolderName %>"
   ]
 }

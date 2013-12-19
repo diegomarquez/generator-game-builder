@@ -3,16 +3,16 @@
   
   "version": "0.1.0",
   
-  "additionalSrcPaths": [ ],
-
-  "additionalAssetPaths": [ ],
-  
-  "additionalLibPaths": [ ],
+  "additionalSrcPaths": "<%= additionalSrcPaths %>",
+  "additionalAssetPaths": "<%= additionalAssetPaths %>",
+  "additionalLibPaths": "<%= additionalLibPaths %>",
 
   "frameworkLocation": "<%= frameworkLocation %>",
-
   "frameworkFolderName": "<%= frameworkFolderName %>",
 
+  "libLocation": "<%= libLocation %>",
+  "libFolderName": "<%= libFolderName %>",
+  
   "size": {
   	"width": "<%= width %>",
   	"height": "<%= height %>" 

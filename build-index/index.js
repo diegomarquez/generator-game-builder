@@ -2,6 +2,7 @@
 var util = require('util');
 var yeoman = require('yeoman-generator');
 var _ = require('lodash');
+var fs = require('fs');
 
 var BuildIndexGenerator = module.exports = function BuildIndexGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
@@ -12,7 +13,12 @@ var BuildIndexGenerator = module.exports = function BuildIndexGenerator(args, op
 
   _.assign(this, JSON.parse(this.readFileAsString(process.cwd() + '/package.json')));
 
+  args.concat(this.additionalSrcPaths.split(','));
+  args.concat(this.additionalAssetPaths.split(','));
+  args.concat(this.additionalLibPaths.split(','));
+
   args.push(this.frameworkLocation + this.frameworkFolderName + '/src');
+  args.push(this.libLocation + this.libFolderName);
   args.push('src');
   args.push('lib');
 };
