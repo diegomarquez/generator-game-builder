@@ -13,14 +13,21 @@ var BuildIndexGenerator = module.exports = function BuildIndexGenerator(args, op
 
   _.assign(this, JSON.parse(this.readFileAsString(process.cwd() + '/package.json')));
 
-  args.concat(this.additionalSrcPaths.split(','));
-  args.concat(this.additionalAssetPaths.split(','));
-  args.concat(this.additionalLibPaths.split(','));
+  this.args.push(this.frameworkLocation + this.frameworkFolderName + '/src');
+  this.args.push(this.libLocation + this.libFolderName);
+  this.args.push('src');
+  this.args.push('lib');
 
-  args.push(this.frameworkLocation + this.frameworkFolderName + '/src');
-  args.push(this.libLocation + this.libFolderName);
-  args.push('src');
-  args.push('lib');
+  var getPaths = function(paths) {
+    if(paths.length != 0) {
+      return paths.split(',');
+    }
+    return [];
+  }
+
+  this.args = this.args.concat(getPaths(this.additionalSrcPaths));
+  this.args = this.args.concat(getPaths(this.additionalAssetPaths));
+  this.args = this.args.concat(getPaths(this.additionalLibPaths));
 };
 
 util.inherits(BuildIndexGenerator, yeoman.generators.Base);
