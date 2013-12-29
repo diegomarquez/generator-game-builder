@@ -1,2 +1,1 @@
-Framework components templates
-	Do them as I move the examples to the new structure.
+Framework components templates.
