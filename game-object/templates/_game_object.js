@@ -1,6 +1,6 @@
 define(function(require){
 	//Don't forget to call this._super() when overriding these methods.
-	//Unless you want things to go horrible undefined.
+	//Unless you want things to go horribly undefined.
 
 	var <% print( _(name).classify() ) %> = require('game_object').extend({		
 		// Contructor
@@ -29,7 +29,7 @@ define(function(require){
 			this._super(delta);
 		},
 
-		// Called before the game object is sent back to it's pool for reuse
+		// Called before the game object is sent back to its pool for reuse
 		destroy: function() {
 			this._super();
 		},
