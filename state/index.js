@@ -6,15 +6,16 @@ var _ = require('lodash');
 _.str = require('underscore.string');
 _.mixin(_.str.exports());
 
-var ExtensionGenerator = module.exports = function ExtensionGenerator(args, options, config) {
+var StateGenerator = module.exports = function StateGenerator(args, options, config) {
   yeoman.generators.NamedBase.apply(this, arguments);
   this.name = _(this.name).trim().slugify().underscored();
 };
 
-util.inherits(ExtensionGenerator, yeoman.generators.NamedBase);
+util.inherits(StateGenerator, yeoman.generators.NamedBase);
 
-ExtensionGenerator.prototype.files = function files() {
-  this.template('_extension.js', this.name + '.js');
+StateGenerator.prototype.files = function files() {
+  this.template('_state.js', this.name + '.js');
 };
+
 
 
