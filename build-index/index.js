@@ -2,7 +2,7 @@
 var util = require('util');
 var yeoman = require('yeoman-generator');
 var _ = require('lodash');
-var fs = require('fs');
+var p = require('path');
 
 var BuildIndexGenerator = module.exports = function BuildIndexGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
@@ -42,9 +42,11 @@ BuildIndexGenerator.prototype.buildConfiguration = function buildConfiguration()
   this.paths = [];
 
   for (var i in files) {
-    var path = files[i];
-
-    this.paths.push({alias:path.match(/(\w+)\.js$/)[1], path:path.replace(/\.js$/, '')})
+    var base = p.basename(files[i], '.js');
+    var dir = p.dirname(files[i]);
+    var path = dir + p.sep + base;
+  
+    this.paths.push({alias:base, path:path})
   }
 
   this.template('_index.html', 'index.html');
