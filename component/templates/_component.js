@@ -23,6 +23,11 @@ define(['component'], function(Component){
 			this._super();
 		},
 
+		// Called the the component is sent back to the component pool for re-use
+		recycle: function() {
+			this._super();
+		},
+
 		// Called after the start method of the parent is called
 		start: function() {
 			this._super();
@@ -37,6 +42,13 @@ define(['component'], function(Component){
 		// Called before the component is sent back to its pool for reuse
 		destroy: function() {
 			this._super();
+		}
+
+		// Use this method for debugging purposes. If the parent game object
+		// has it's debug property set to true this method is called.
+		// And you can draw things using the context that is passed in.
+		debug_draw: function(context) {
+
 		}
 	});
 

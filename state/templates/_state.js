@@ -22,7 +22,7 @@ define(function(require){
 
 		});
 
-		// This will be executed whne the update method of the state machine containing this state is executed
+		// This will be executed when the update method of the state machine containing this state is executed
 		state.addUpdateAction(function(args){
 
 		});
