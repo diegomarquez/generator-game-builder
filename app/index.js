@@ -23,9 +23,7 @@ var GameBuilderGenerator = module.exports = function GameBuilderGenerator(args, 
     }
   }
 
-  this.hookFor('game-builder:get-deps', _.clone(defaultHookOptions));
   this.hookFor('game-builder:get-framework', _.clone(defaultHookOptions));
-  this.hookFor('game-builder:build-index', _.clone(defaultHookOptions));
   
   this.hookFor('game-builder:build-main', {
     args: [this],
@@ -34,7 +32,12 @@ var GameBuilderGenerator = module.exports = function GameBuilderGenerator(args, 
     }
   });
 
+  options = {
+    force: true
+  };
+
   this.on('end', function () {
+    installWrapper.bowerInstall(this, options);
     installWrapper.npmInstall(this, options);  
   });
 
@@ -69,14 +72,12 @@ GameBuilderGenerator.prototype.inquire = function inquire() {
     console.log();
 
     this.frameworkTag         = 'latest';
-    this.extensions           = ['pause', 'resume', 'basic_layer_setup'];
-    this.frameworkLocation    = './';
-    this.libLocation          = './';
+    this.extensions           = ['pause', 'resume', 'basic-layer-setup'];
+    this.frameworkLocation    = './game-builder';
+    this.libLocation          = './lib';
     this.additionalSrcPaths   = '';
     this.additionalAssetPaths = '';
     this.additionalLibPaths   = '';
-    this.frameworkFolderName  = 'game-builder'
-    this.libFolderName        = 'lib';
 
     var isNotDefaultGeneration = function(answers) { return !answers.defaultGeneration; };
     var addAdditionalPaths = function(answers) { return isNotDefaultGeneration(answers) && answers.additionalPaths; };
@@ -126,23 +127,9 @@ GameBuilderGenerator.prototype.inquire = function inquire() {
       },
 
       {
-        name: "frameworkFolderName",
-        message: "What should the name of game-builder's folder be?",
-        default: this.frameworkFolderName,
-        when: isNotDefaultGeneration
-      },
-
-      {
         name: "libLocation",
         message: "Where should bower dependencies be downloaded?",
         default: this.libLocation,
-        when: isNotDefaultGeneration
-      },
-
-      {
-        name: "libFolderName",
-        message: "What should the name of bower dependencies folder be?",
-        default: this.libFolderName,
         when: isNotDefaultGeneration
       },
 
@@ -203,8 +190,8 @@ GameBuilderGenerator.prototype.copyFiles = function projectfiles() {
   this.template('_bower.json', 'bower.json');
   this.template('_README.md', 'README.md');
   this.template('_.bowerrc', '.bowerrc');
+  this.template('_index.html', 'index.html');
 
-  this.copy('main.html', 'main.html');
   this.copy('main.css', 'styles/main.css');
   this.copy('.gitignore', '.gitignore');
   this.copy('Gruntfile.js', 'Gruntfile.js');

@@ -1,30 +1,31 @@
 // <%= name %>'s main entry point 
 
-define(function(require){
+define(function(require){	
 	var gb = require('gb');
-	
+
+	// Storing some references to avoid excesive typing
 	var game = gb.game;
 	var root = gb.root;
 
 	<% _.forEach(extensions, function(extension) { %>game.add_extension(require("<%= extension %>"));
 	<% }); %>
 	// This is the main initialization function
-	game.on("init", this, function() {
+	game.on(game.CREATE, this, function() {
 		console.log("Welcome to Game-Builder!");
 	});
 
 	// This is called when the canvas looses focus
-	game.on("blur", this, function() {
-		console.log("<%= name %> has lost focus");
+	game.on(game.BLUR, this, function() {
+		console.log("empty has lost focus");
 	});
 
 	// This is called when the canvas regains focus
-	game.on("focus", this, function() {
-		console.log("<%= name %> has regained focus");
+	game.on(game.FOCUS, this, function() {
+		console.log("empty has regained focus");
 	});
 
 	// This is the main update loop
-	game.on("update", this, function() {
+	game.on(game.UPDATE, this, function() {
 		// Updates ALL the things.
 		root.update(game.delta);
 		// Draws ALL the things.

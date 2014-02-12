@@ -14,12 +14,9 @@ var GetFrameworkGenerator = module.exports = function GetFrameworkGenerator(args
 util.inherits(GetFrameworkGenerator, yeoman.generators.Base);
 
 GetFrameworkGenerator.prototype.setup = function setup() {  
-	dir_remover.remove([
-      process.cwd() + '/' + this.frameworkLocation + this.frameworkFolderName
-    ], 
-  this.async());
+	dir_remover.remove([process.cwd() + '/' + this.frameworkLocation], this.async());
 
-	this.mkdir(this.frameworkLocation + this.frameworkFolderName);
+	this.mkdir(this.frameworkLocation);
 
 	_.assign(this, JSON.parse(this.readFileAsString(process.cwd() + '/package.json')));
 }
@@ -32,7 +29,7 @@ GetFrameworkGenerator.prototype.getFramework = function getFramework() {
   this.remote('diegomarquez', 'game', this.frameworkTag, function (err, remote) {
       if (err) return cb(err);
  	
-      remote.directory('./', self.frameworkLocation + self.frameworkFolderName);
+      remote.directory('./', self.frameworkLocation);
       cb();
     }, true);
 };

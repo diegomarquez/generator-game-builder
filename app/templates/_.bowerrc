@@ -1,4 +1,4 @@
 {
-  "directory" : "<%= libLocation %><%= libFolderName %>"
+  "directory" : "<%= libLocation %>"
 }
 

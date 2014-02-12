@@ -8,21 +8,16 @@
   "additionalLibPaths": "<%= additionalLibPaths %>",
 
   "frameworkLocation": "<%= frameworkLocation %>",
-  "frameworkFolderName": "<%= frameworkFolderName %>",
-
   "libLocation": "<%= libLocation %>",
-  "libFolderName": "<%= libFolderName %>",
-  
-  "size": {
-  	"width": "<%= width %>",
-  	"height": "<%= height %>" 
-  },
 
   "frameworkTag": "<%= frameworkTag %>",
   
   "dependencies": {
     "grunt": "~0.4.2",
     "grunt-shell": "~0.6.0",
-    "grunt-open": "~0.2.2"
+    "grunt-open": "~0.2.2",
+    "bower": "~1.2.8",
+    "grunt-bower-requirejs": "~0.8.4",
+    "path": "~0.4.9"
   }
 }

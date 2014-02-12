@@ -57,7 +57,7 @@ BuildMainGenerator.prototype.buildMain = function buildMain() {
   if(!this.args[0].defaultGeneration) {
     this._message();
 
-    var extensions = this.expandFiles(this.frameworkLocation + this.frameworkFolderName + '/src/game_canvas/extensions/**/*.js');
+    var extensions = this.expandFiles(this.frameworkLocation + '/src/game_canvas/extensions/**/*.js');
     
     var extensionChoices = _.map(extensions, function(extension){
       return {

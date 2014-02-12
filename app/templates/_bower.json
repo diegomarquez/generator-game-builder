@@ -1,14 +1,10 @@
 {
   "name": "<%= name %>",
   "version": "0.1.0",
+  
   "dependencies": {
     "requirejs": "2.x.x",
     "requirejs-domready": "2.x.x"
-  },
-
-  "pathsToMain": {
-    "requirejs": "requirejs/require.js",
-    "requirejs-domready": "requirejs-domready/domready.js"
   },
 
   "ignore": [
@@ -16,7 +12,7 @@
     "node_modules",
     "test",
     "tests",
-    "<%= libLocation %><%= libFolderName %>"
+    "<%= libLocation %>"
   ]
 }
 
