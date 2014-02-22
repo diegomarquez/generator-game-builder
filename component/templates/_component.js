@@ -42,7 +42,7 @@ define(['component'], function(Component){
 		// Called before the component is sent back to its pool for reuse
 		destroy: function() {
 			this._super();
-		}
+		},
 
 		// Use this method for debugging purposes. If the parent game object
 		// has it's debug property set to true this method is called.
