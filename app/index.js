@@ -22,8 +22,6 @@ var GameBuilderGenerator = module.exports = function GameBuilderGenerator(args, 
       options: { force: true }
     }
   }
-
-  this.hookFor('game-builder:get-framework', _.clone(defaultHookOptions));
   
   this.hookFor('game-builder:build-main', {
     args: [this],
@@ -77,7 +75,6 @@ GameBuilderGenerator.prototype.inquire = function inquire() {
     this.libLocation          = './lib';
     this.additionalSrcPaths   = '';
     this.additionalAssetPaths = '';
-    this.additionalLibPaths   = '';
 
     var isNotDefaultGeneration = function(answers) { return !answers.defaultGeneration; };
     var addAdditionalPaths = function(answers) { return isNotDefaultGeneration(answers) && answers.additionalPaths; };
@@ -153,13 +150,6 @@ GameBuilderGenerator.prototype.inquire = function inquire() {
         message: "What are the additional asset paths? (Add more paths as a comma separate list)",
         default: this.additionalAssetPaths,
         when: addAdditionalPaths
-      },
-
-      {
-        name: "additionalLibPaths",
-        message: "What are the additional lib paths? (Add more paths as a comma separate list)",
-        default: this.additionalLibPaths,
-        when: addAdditionalPaths
       }
     ];
 
@@ -170,17 +160,14 @@ GameBuilderGenerator.prototype.inquire = function inquire() {
 GameBuilderGenerator.prototype.createFolderStructure = function folderStructure() {
   this.mkdir('assets');
   this.mkdir('src');
-  this.mkdir('styles');  
+  this.mkdir('styles');
+  this.mkdir('tasks');  
 
   _.forEach(this.additionalSrcPaths.split(','), function(path){
     this.mkdir(path);
   }.bind(this));
 
   _.forEach(this.additionalAssetPaths.split(','), function(path){
-    this.mkdir(path);
-  }.bind(this));
-
-  _.forEach(this.additionalLibPaths.split(','), function(path){
     this.mkdir(path);
   }.bind(this));
 };
@@ -191,8 +178,9 @@ GameBuilderGenerator.prototype.copyFiles = function projectfiles() {
   this.template('_README.md', 'README.md');
   this.template('_.bowerrc', '.bowerrc');
   this.template('_index.html', 'index.html');
+  this.template('_.gitignore', '.gitignore');
 
   this.copy('main.css', 'styles/main.css');
-  this.copy('.gitignore', '.gitignore');
+  this.copy('create-config.js', 'tasks/create-config.js');
   this.copy('Gruntfile.js', 'Gruntfile.js');
 };
