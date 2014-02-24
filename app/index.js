@@ -15,31 +15,12 @@ art.Figlet.fontPath = __dirname + '/../fonts/';
 
 var GameBuilderGenerator = module.exports = function GameBuilderGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
-
-  var defaultHookOptions = {
-    args: args,
-    options: {
-      options: { force: true }
-    }
-  }
   
-  this.hookFor('game-builder:build-main', {
-    args: [this],
-    options: {
-      options: { force: true }
-    }
-  });
-
-  options = {
-    force: true
-  };
+  this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
 
   this.on('end', function () {
-    installWrapper.bowerInstall(this, options);
-    installWrapper.npmInstall(this, options);  
+    this.installDependencies({ skipInstall: options['skip-install'] });
   });
-
-  this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
 };
 
 util.inherits(GameBuilderGenerator, yeoman.generators.Base);
@@ -70,7 +51,6 @@ GameBuilderGenerator.prototype.inquire = function inquire() {
     console.log();
 
     this.frameworkTag         = 'latest';
-    this.extensions           = ['pause', 'resume', 'basic-layer-setup'];
     this.frameworkLocation    = './game-builder';
     this.libLocation          = './lib';
     this.additionalSrcPaths   = '';
@@ -179,6 +159,7 @@ GameBuilderGenerator.prototype.copyFiles = function projectfiles() {
   this.template('_.bowerrc', '.bowerrc');
   this.template('_index.html', 'index.html');
   this.template('_.gitignore', '.gitignore');
+  this.template('_main.js', 'main.js');
 
   this.copy('main.css', 'styles/main.css');
   this.copy('create-config.js', 'tasks/create-config.js');

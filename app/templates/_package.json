@@ -1,20 +1,13 @@
 {
-  // Name of the project
   "name": "<%= name %>",
-  // Version
   "version": "0.1.0",
-  // Comma separates string with other source paths asides from the main folder
   "additionalSrcPaths": "<%= additionalSrcPaths %>",
-  // Comma separates string with other asset paths asides from the main folder
   "additionalAssetPaths": "<%= additionalAssetPaths %>",
-  // Path to game-builder source
-  "frameworkLocation": "<%= frameworkLocation %>",
-  // Path to dependencies installed by bower
-  "libLocation": "<%= libLocation %>",
-  // Branch of game-builder repo to get source from
+  "framework": "<%= frameworkLocation %>",
+  "lib": "<%= libLocation %>",
   "frameworkTag": "<%= frameworkTag %>",
-  // Node dependencies
   "dependencies": {
+    "grunt-cli": "~0.1.13",
     "grunt": "~0.4.2",
     "grunt-shell": "~0.6.0",
     "grunt-open": "~0.2.2",

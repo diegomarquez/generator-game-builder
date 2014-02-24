@@ -1,5 +1,4 @@
 {
-  // This is where bower downloads dependencies
   "directory" : "<%= libLocation %>"
 }
 
