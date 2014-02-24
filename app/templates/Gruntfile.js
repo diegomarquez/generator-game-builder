@@ -18,14 +18,14 @@ module.exports = function(grunt) {
 
       // Clone game-builder from github
       framework: {
-        command: t('git clone -b <%= pkg.frameworkTag %> git@github.com:diegomarquez/game-builder.git <%= pkg.framework %>') 
+        command: t('git clone -b <%= p.frameworkTag %> git@github.com:diegomarquez/game-builder.git <%= p.framework %>', {data: {p:p}}) 
       }
     },
 
     clean: {
       // Clean the folder where game-builder is downloaded
       target: {
-        src: [path.join(pkg.framework)]
+        src: [path.join(p.framework)]
       }
     },
 
