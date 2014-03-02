@@ -7,8 +7,8 @@
 
 ### Things you will need...
 
-1. [Node][http://www.nodejs.org/] 
-2. [Yeoman][http://yeoman.io]
+1. [Node](http://www.nodejs.org/)
+2. [Yeoman](http://yeoman.io)
 
 ### With those two things...
 
@@ -29,19 +29,15 @@ That will setup an empty Game-Builder project
 ### Subgenerators
 
 ```bash
-yo game-builder:bundle
-yo game-builder:bundle
-yo game-builder:bundle
-yo game-builder:bundle
-yo game-builder:bundle
+yo game-builder:bundle "cool bundle name"
+yo game-builder:component "cool component name"
+yo game-builder:container "cool container name"
+yo game-builder:extension "cool extension name"
+yo game-builder:game-object "cool game-object name"
+yo game-builder:renderer "cool renderer name"
+yo game-builder:state "cool state name"
 ```
 
-
-component
-container
-extension
-game-object
-renderer
-state
+Check out [Game-Builder website](http://diegomarquez.github.io/game-builder/) for the documentation on the types of files those subgenerators scaffold create.
 
 A generator for [Yeoman](http://yeoman.io).
