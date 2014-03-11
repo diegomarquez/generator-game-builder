@@ -163,5 +163,8 @@ GameBuilderGenerator.prototype.copyFiles = function projectfiles() {
 
   this.copy('main.css', 'styles/main.css');
   this.copy('create-config.js', 'tasks/create-config.js');
+  this.copy('local-assets.js', 'tasks/local-assets.js');
   this.copy('Gruntfile.js', 'Gruntfile.js');
+  this.copy('remote-assets.json', 'remote-assets.json');
+
 };
