@@ -5,7 +5,6 @@ var webfonts = {
 		// google: {
 		// 	families: []
 		// },
-	  }
 	},
 
 	// Set a version of [Web font loader](https://github.com/typekit/webfontloader) to download from 
