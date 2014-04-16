@@ -1,5 +1,5 @@
 define(function(require){
-	var state_machine_factory = require("state_machine");
+	var state_machine_factory = require("state-machine");
 
 	// The states can dispatch three types of events, 
 	// 'next'. Only a fixed state machine understands this event, it makes it move to the next state.

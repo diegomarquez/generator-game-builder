@@ -2,7 +2,7 @@ define(function(require){
 	//Don't forget to call this._super() when overriding these methods.
 	//Unless you want things to go horribly undefined.
 
-	var <% print( _(name).classify() ) %> = require('game_object').extend({		
+	var <% print( _(name).classify() ) %> = require('game-object').extend({		
 		// Contructor
 		init: function() {
 			this._super();
