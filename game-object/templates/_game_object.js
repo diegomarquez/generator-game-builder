@@ -15,7 +15,7 @@ define(function(require){
 
 		// Called after reset(). Receives initialization arguments
 		configure: function(args) {
-			this._super();	
+			this._super(args);	
 		},
 
 		// All game objects must call this method before they can start doing their thing

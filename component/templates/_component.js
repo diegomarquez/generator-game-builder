@@ -15,12 +15,12 @@ define(['component'], function(Component){
 
 		// Called when the component is added to a game object
 		added: function(parent) {
-			this._super();			
+			this._super(parent);			
 		},
 
 		// Called when the component is removed from a game object
 		removed: function(parent) {
-			this._super();
+			this._super(parent);
 		},
 
 		// Called the the component is sent back to the component pool for re-use
@@ -36,7 +36,7 @@ define(['component'], function(Component){
 		// Called continually through the main update loop, as the name implies	
 		// Receives the delta time between this frame and the last, in milliseconds.
 		update: function(delta) {
-			this._super();
+			this._super(delta);
 		},
 
 		// Called before the component is sent back to its pool for reuse
