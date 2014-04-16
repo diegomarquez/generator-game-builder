@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "additionalSrcPaths": "<%= additionalSrcPaths %>",
   "additionalAssetPaths": "<%= additionalAssetPaths %>",
+  "frameworkRepo": "git@github.com:diegomarquez/game-builder.git",
   "framework": "<%= frameworkLocation %>",
   "lib": "<%= libLocation %>",
   "frameworkTag": "<%= frameworkTag %>",
