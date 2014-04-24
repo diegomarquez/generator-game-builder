@@ -9,6 +9,8 @@ _.mixin(_.str.exports());
 var ExtendRendererGenerator = module.exports = function ExtendRendererGenerator(args, options, config) {
   yeoman.generators.NamedBase.apply(this, arguments);
 
+  this.name = _(this.name).trim().slugify().dasherize();
+
   this.mainModule = args[1];
 
   var helper;

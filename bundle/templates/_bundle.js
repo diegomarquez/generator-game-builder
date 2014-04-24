@@ -1,5 +1,6 @@
 define(function(require) {	
 	//Insert require calls to other modules this bundle will use here
+	<%_.forEach(moduleRequires, function(moduleRequire) {%>var <%=moduleRequire.variableName%> = require("<%= moduleRequire.moduleName %>");<%="\n\t"%><%});%>
 
 	// These properties are available to a bundle
 	// this.gameObjectPool. A reference to the Game Objects Pool	

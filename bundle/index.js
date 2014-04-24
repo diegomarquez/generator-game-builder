@@ -8,7 +8,15 @@ _.mixin(_.str.exports());
 
 var BundleGenerator = module.exports = function BundleGenerator(args, options, config) {
   yeoman.generators.NamedBase.apply(this, arguments);
-  this.name = _(this.name).trim().slugify().underscored();
+  
+  this.name = _(this.name).trim().slugify().dasherize();
+
+  this.moduleRequires = _.map(args.slice(1), function(element) {
+  	return {
+  		variableName: _(element).trim().slugify().underscored(),
+  		moduleName: element
+  	}
+  });
 };
 
 util.inherits(BundleGenerator, yeoman.generators.NamedBase);

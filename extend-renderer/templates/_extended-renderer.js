@@ -47,8 +47,8 @@ define([<% print(allModules.join(', ')) %>], function(<% print( print(moduleArgu
 		// Use this method for debugging purposes. If the parent game object
 		// has it's debug property set to true this method is called.
 		// And you can draw things using the context that is passed in.
-		debug_draw: function(context) {}
-		<% if(mainModule == 'path-renderer') { print( "\n\t\tdrawPath: function(context) {}\n" ) } %>
+		debug_draw: function(context) {},
+		<% if(mainModule == 'path-renderer') { print( "\n\t\tdrawPath: function(context) {},\n" ) } %>
 		draw: function(context) {
 			this._super(context);
 		}
