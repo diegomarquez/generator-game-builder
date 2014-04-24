@@ -1,8 +1,8 @@
-define(['component'], function(Component){
+define([<% print(allModules.join(', ')) %>], function(<% print( print(moduleArguments.join(', ')) ) %>) {
 	//Don't forget to call this._super() when overriding these methods.
 	//Unless you want things to go horribly undefined.
 
-	var Component = Component.extend({
+	var <% print( _(name).classify() ) %> = <% print( _(mainModule).classify() ) %>.extend({
 		// Contructor
 		init: function() {
 			this._super();
@@ -47,10 +47,14 @@ define(['component'], function(Component){
 		// Use this method for debugging purposes. If the parent game object
 		// has it's debug property set to true this method is called.
 		// And you can draw things using the context that is passed in.
-		debug_draw: function(context) {
-
+		debug_draw: function(context) {}
+		<% if(mainModule == 'path-renderer') { print( "\n\t\tdrawPath: function(context) {}\n" ) } %>
+		draw: function(context) {
+			this._super(context);
 		}
 	});
 
 	return <% print( _(name).classify() ) %>;
 });
+
+

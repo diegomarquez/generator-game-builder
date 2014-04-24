@@ -1,5 +1,5 @@
 var webfonts = {
-	// Refer [Web font loader](https://github.com/typekit/webfontloader) for details on how it should look like.
+	// Refer to [Web font loader](https://github.com/typekit/webfontloader) for details on how it should look like.
 	// This assumes you will be using [Google Fonts](https://www.google.com/fonts), but there are other options
 	data: {
 		// google: {
