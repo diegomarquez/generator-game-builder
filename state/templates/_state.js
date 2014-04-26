@@ -1,5 +1,9 @@
-define(function(require){
-	var state_machine_factory = require("state-machine");
+define(function(require) {
+	// Insert require call to needed modules here
+	<%_.forEach(moduleRequires, function(moduleRequire) {%>var <%=moduleRequire.variableName%> = require('<%= moduleRequire.moduleName %>');<%='\n\t'%><%});%>
+
+	// State machine factory
+	var state_machine_factory = require('state-machine');
 
 	// The states can dispatch three types of events, 
 	// 'next'. Only a fixed state machine understands this event, it makes it move to the next state.
@@ -10,7 +14,7 @@ define(function(require){
 		// state.execute('change', {next:'id', nextInitArgs:{}, lastCompleteArgs:{} });
 
 	return function(name) {
-		var state = state_machine_factory.createState(this, name);
+		var state =  state_machine_factory.createState(this, name);
 
 		// This will be executes when this state begins execution
 		state.addStartAction(function(args){

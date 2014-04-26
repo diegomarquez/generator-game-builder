@@ -6,7 +6,7 @@ var _ = require('lodash');
 _.str = require('underscore.string');
 _.mixin(_.str.exports());
 
-var ExtendRendererGenerator = module.exports = function ExtendRendererGenerator(args, options, config) {
+var RendererGenerator = module.exports = function RendererGenerator(args, options, config) {
   yeoman.generators.NamedBase.apply(this, arguments);
 
   this.name = _(this.name).trim().slugify().dasherize();
@@ -29,8 +29,8 @@ var ExtendRendererGenerator = module.exports = function ExtendRendererGenerator(
   });
 };
 
-util.inherits(ExtendRendererGenerator, yeoman.generators.NamedBase);
+util.inherits(RendererGenerator, yeoman.generators.NamedBase);
 
-ExtendRendererGenerator.prototype.files = function files() {
-  this.template('_extended-renderer.js', this.name + '.js');
+RendererGenerator.prototype.files = function files() {
+  this.template('_renderer.js', this.name + '.js');
 };

@@ -11,7 +11,9 @@ var BundleGenerator = module.exports = function BundleGenerator(args, options, c
   
   this.name = _(this.name).trim().slugify().dasherize();
 
-  this.moduleRequires = _.map(args.slice(1), function(element) {
+  this.mainModule = args[1];
+
+  this.moduleRequires = _.map(args.slice(2), function(element) {
   	return {
   		variableName: _(element).trim().slugify().underscored(),
   		moduleName: element
