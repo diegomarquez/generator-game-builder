@@ -17,6 +17,7 @@ var RendererGenerator = module.exports = function RendererGenerator(args, option
 
   if(this.mainModule == 'bitmap-renderer') { helper = 'image-cache'; }
   if(this.mainModule == 'path-renderer') { helper = 'path-cache'; }
+  if(this.mainModule == 'text-renderer') { helper = 'text-cache'; }
 
   this.allModules = [this.mainModule, helper].concat(args.slice(2));  
 

@@ -44,6 +44,14 @@ define([<% print(allModules.join(', ')) %>], function(<% print( print(moduleArgu
 			this._super();
 		},
 
+		// This should be changed depending on the needs of the renderer
+		// Deleting them from here or leaving them as is will fallback to the behaviour
+		// defined in renderer.js
+		rendererWidth: function() { return this._super(); },
+		rendererHeight: function() { return this._super(); },
+		rendererOffsetX: function() { return this._super(); },
+		rendererOffsetY: function() { return this._super(); },
+
 		// Use this method for debugging purposes. If the parent game object
 		// has it's debug property set to true this method is called.
 		// And you can draw things using the context that is passed in.
