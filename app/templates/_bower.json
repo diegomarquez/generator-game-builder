@@ -4,14 +4,13 @@
   
   "dependencies": {
     "requirejs": "2.x.x",
-    "requirejs-domready": "2.x.x"
+    "requirejs-domready": "2.x.x",
+    "almond": "~0.3.0"
   },
 
   "ignore": [
     "**/.*",
     "node_modules",
-    "test",
-    "tests",
     "<%= libLocation %>"
   ]
 }

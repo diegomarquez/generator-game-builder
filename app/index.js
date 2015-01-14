@@ -9,8 +9,6 @@ var _ = require('lodash');
 _.str = require('underscore.string');
 _.mixin(_.str.exports());
 
-var installWrapper = require('../helpers/install_wrapper')();
-
 art.Figlet.fontPath = __dirname + '/../fonts/';
 
 var GameBuilderGenerator = module.exports = function GameBuilderGenerator(args, options, config) {
@@ -139,8 +137,12 @@ GameBuilderGenerator.prototype.inquire = function inquire() {
 
 GameBuilderGenerator.prototype.createFolderStructure = function folderStructure() {
   this.mkdir('assets');
+  this.mkdir('config');
   this.mkdir('src');
   this.mkdir('styles');
+  this.mkdir('styles/css');
+  this.mkdir('styles/less');
+  this.mkdir('styles/less/main');
   this.mkdir('tasks');  
 
   _.forEach(this.additionalSrcPaths.split(','), function(path){
@@ -153,19 +155,45 @@ GameBuilderGenerator.prototype.createFolderStructure = function folderStructure(
 };
 
 GameBuilderGenerator.prototype.copyFiles = function projectfiles() {
-  this.template('_package.json', 'package.json');
-  this.template('_bower.json', 'bower.json');
-  this.template('_README.md', 'README.md');
+  // ROOT
   this.template('_.bowerrc', '.bowerrc');
-  this.template('_index.html', 'index.html');
   this.template('_.gitignore', '.gitignore');
+  this.template('_bower.json', 'bower.json');
+  this.template('_index.html', 'index.html');
   this.template('_main.js', 'main.js');
-
-  this.copy('main.css', 'styles/main.css');
-  this.copy('create-config.js', 'tasks/create-config.js');
-  this.copy('local-assets.js', 'tasks/local-assets.js');
+  this.template('_package.json', 'package.json');
+  this.template('_README.md', 'README.md');
   this.copy('Gruntfile.js', 'Gruntfile.js');
-  this.copy('font-data.js', 'font-data.js');
-  this.copy('remote-assets.json', 'remote-assets.json');
 
+  // ASSETS
+  this.copy('assets/DELETEME.md', 'assets/DELETEME.md');
+
+  // CONFIG
+  this.copy('config/font-data.json', 'config/font-data.json');
+  this.copy('config/remote-assets.json', 'config/remote-assets.json');
+  this.copy('config/shim-config.json', 'config/shim-config.json');
+  this.template('config/_lib-paths.json', 'config/lib-paths.json');
+
+  // SRC
+  this.copy('src/DELETEME.md', 'src/DELETEME.md'); 
+
+  // STYLES
+  // CSS
+  this.copy('styles/css/DELETEME.md', 'styles/css/DELETEME.md');
+  this.copy('styles/css/main.css', 'styles/css/main.css');
+  // LESS
+  this.copy('styles/less/DELETEME.md', 'styles/less/DELETEME.md');
+  this.copy('styles/less/main/style.less', 'styles/less/main/style.less');
+
+  // TASKS
+ 	// TEMPLATES
+ 	this.copy('tasks/templates/data-module-template.txt', 'tasks/templates/data-module-template.txt');
+ 	this.copy('tasks/templates/index-template.txt', 'tasks/templates/index-template.txt');
+ 	this.copy('tasks/templates/requirejs-config-template.txt', 'tasks/templates/requirejs-config-template.txt');
+ 	// LOCAL TASKS
+ 	this.copy('tasks/build-index.js', 'tasks/build-index.js');
+ 	this.copy('tasks/create-config.js', 'tasks/create-config.js');
+ 	this.copy('tasks/data-module.js', 'tasks/data-module.js');
+ 	this.copy('tasks/local-assets.js', 'tasks/local-assets.js');
+ 	this.copy('tasks/make-dir.js', 'tasks/make-dir.js');
 };

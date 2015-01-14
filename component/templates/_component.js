@@ -12,7 +12,7 @@ define([<% print(allModules.join(', ')) %>], function(<% print( print(moduleArgu
 		configure: function(args) {
 			this._super(args);
 		},
-
+		
 		// Called when the component is added to a game object
 		added: function(parent) {
 			this._super(parent);			
@@ -33,7 +33,7 @@ define([<% print(allModules.join(', ')) %>], function(<% print( print(moduleArgu
 			this._super(parent);
 		},
 		
-		// Called continually through the main update loop, as the name implies	
+		// Called continually through the main update loop.	
 		// Receives the delta time between this frame and the last, in milliseconds.
 		update: function(delta) {
 			this._super(delta);
@@ -47,7 +47,7 @@ define([<% print(allModules.join(', ')) %>], function(<% print( print(moduleArgu
 		// Use this method for debugging purposes. If the parent game object
 		// has it's debug property set to true this method is called.
 		// And you can draw things using the context that is passed in.
-		debug_draw: function(context) {
+		debug_draw: function(context, viewport, draw) {
 
 		}
 	});

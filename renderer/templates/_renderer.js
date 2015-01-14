@@ -1,6 +1,5 @@
 define([<% print(allModules.join(', ')) %>], function(<% print( print(moduleArguments.join(', ')) ) %>) {
 	//Don't forget to call this._super() when overriding these methods.
-	//Unless you want things to go horribly undefined.
 
 	var <% print( _(name).classify() ) %> = <% print( _(mainModule).classify() ) %>.extend({
 		// Contructor
@@ -33,7 +32,7 @@ define([<% print(allModules.join(', ')) %>], function(<% print( print(moduleArgu
 			this._super(parent);
 		},
 		
-		// Called continually through the main update loop, as the name implies	
+		// Called continually through the main update loop.	
 		// Receives the delta time between this frame and the last, in milliseconds.
 		update: function(delta) {
 			this._super(delta);
@@ -55,7 +54,7 @@ define([<% print(allModules.join(', ')) %>], function(<% print( print(moduleArgu
 		// Use this method for debugging purposes. If the parent game object
 		// has it's debug property set to true this method is called.
 		// And you can draw things using the context that is passed in.
-		debug_draw: function(context) {},
+		debug_draw: function(context, viewport, draw) {},
 		<% if(mainModule == 'path-renderer') { print( "\n\t\tdrawPath: function(context) {},\n" ) } %>
 		draw: function(context) {
 			this._super(context);

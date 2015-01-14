@@ -1,0 +1,1 @@
+This folder can have as many subfolders as needed, each subfolder must have a file called style.less. These are the files which will be processed.

@@ -1,3 +1,6 @@
 node_modules
-<%= libLocation %>
-<%= frameworkLocation %>
+lib
+game-builder
+build
+build/dev
+build/prod

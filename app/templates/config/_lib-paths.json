@@ -1,0 +1,4 @@
+{
+	"domready": "<%= libLocation %>/requirejs-domready/domReady"
+}
+
