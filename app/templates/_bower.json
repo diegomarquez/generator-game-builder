@@ -11,6 +11,8 @@
   "ignore": [
     "**/.*",
     "node_modules",
+    "lib",
+    "game-builder",
     "<%= libLocation %>"
   ]
 }

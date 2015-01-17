@@ -23,7 +23,7 @@
     "ascii-art": "0.0.2-alpha",
     "colors": "~0.6.2",
     "lodash": "~2.4.1",
-    "underscore.string": "~2.3.3",
+    "underscore.string": "^2.3.3",
     "yeoman-generator": "^0.18.6"
   },
   "devDependencies": {

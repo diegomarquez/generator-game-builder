@@ -1,2 +1,3 @@
 --require test/setup
 --reporter dot
+--timeout 2000

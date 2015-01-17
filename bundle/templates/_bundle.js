@@ -1,5 +1,5 @@
 define(function(require) {	
-	//Insert require calls to other modules this bundle will use here
+	// Insert require calls to other modules this bundle will use here
 	<%_.forEach(moduleRequires, function(moduleRequire) {%>var <%=moduleRequire.variableName%> = require('<%= moduleRequire.moduleName %>');<%='\n\t'%><%});%>
 
 	// These properties are available to a bundle
@@ -9,7 +9,9 @@ define(function(require) {
 
 	var <% print( _(name).classify() ) %> = require('<% print( mainModule ) %>').extend({
 		create: function(args) {
-			//Add things to the gameObjectPool and componentPool objects here
+			this._super();
+			
+			// Add things to the gameObjectPool and componentPool objects here
 		}
 	});
 

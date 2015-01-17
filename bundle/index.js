@@ -7,13 +7,12 @@ _.str = require('underscore.string');
 _.mixin(_.str.exports());
 
 var BundleGenerator = module.exports = function BundleGenerator(args, options, config) {
-  yeoman.generators.NamedBase.apply(this, arguments);
+  yeoman.NamedBase.apply(this, arguments);
   
-  this.name = _(this.name).trim().slugify().dasherize();
+  this.name = _(this.name).clean().slugify().dasherize();
+  this.mainModule = 'bundle';
 
-  this.mainModule = args[1];
-
-  this.moduleRequires = _.map(args.slice(2), function(element) {
+  this.moduleRequires = _.map(args.slice(1), function(element) {
   	return {
   		variableName: _(element).trim().slugify().underscored(),
   		moduleName: element
@@ -21,7 +20,7 @@ var BundleGenerator = module.exports = function BundleGenerator(args, options, c
   });
 };
 
-util.inherits(BundleGenerator, yeoman.generators.NamedBase);
+util.inherits(BundleGenerator, yeoman.NamedBase);
 
 BundleGenerator.prototype.files = function files() {
   this.template('_bundle.js', this.name + '.js');

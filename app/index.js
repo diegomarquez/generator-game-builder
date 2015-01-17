@@ -13,11 +13,14 @@ art.Figlet.fontPath = __dirname + '/../fonts/';
 
 var GameBuilderGenerator = module.exports = function GameBuilderGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
-  
+
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
 
   this.on('end', function () {
-    this.installDependencies({ skipInstall: options['skip-install'] });
+    this.installDependencies({ 
+    	skipInstall: options['skip-install'], 
+    	skipMessage: options['skip-message']
+    });
   });
 };
 
@@ -33,107 +36,116 @@ GameBuilderGenerator.prototype._processPrompt = function _processPrompt(prompts,
   }.bind(this));
 }
 
-GameBuilderGenerator.prototype.inquire = function inquire() {
-  var cb = this.async();
+GameBuilderGenerator.prototype.welcome = function welcome() {
+	if (this.options['skip-welcome']) return;
 
-  console.log('Hello, welcome too...');
+	var cb = this.async();
+
+	this.log('Hello, welcome too...');
 
   art.font('GAME', 'smslant', 'red')
      .font('-', 'smslant', 'yellow')
      .font('BUILDER', 'smslant', 'red')
-     .font( ' .v1', 'smslant', 'yellow', function(rendered){
+     .font( ' .v1', 'smslant', 'yellow', 
 
-    console.log(rendered);
-    console.log('A generator by ' + 'Diego Enrique Marquez'.red.bold + ' (https://github.com/diegomarquez)');
-    console.log('Powered by ' + 'Yeoman'.yellow.bold + ' (http://yeoman.io/)');
-    console.log();
+    function(rendered){
+		  this.log(rendered);
+		  this.log('A generator by ' + 'Diego Enrique Marquez'.red.bold + ' (https://github.com/diegomarquez)');
+		  this.log('Powered by ' + 'Yeoman'.yellow.bold + ' (http://yeoman.io/)');
+		  this.log(); 
 
-    this.frameworkTag         = 'latest';
-    this.frameworkLocation    = './game-builder';
-    this.libLocation          = './lib';
-    this.additionalSrcPaths   = '';
-    this.additionalAssetPaths = '';
+		  cb();
+	}.bind(this));
+}
 
-    var isNotDefaultGeneration = function(answers) { return !answers.defaultGeneration; };
-    var addAdditionalPaths = function(answers) { return isNotDefaultGeneration(answers) && answers.additionalPaths; };
+GameBuilderGenerator.prototype.inquire = function inquire() {
+  var cb = this.async();
 
-    var prompts = [
-      {
-        name: "name",
-        message: "What will the name of your project be?",
-        filter: function(name) { 
-          return _(name).trim().slugify(); 
-        }
-      },
+  this.frameworkTag         = 'latest';
+  this.frameworkLocation    = './game-builder';
+  this.libLocation          = './lib';
+  this.additionalSrcPaths   = '';
+  this.additionalAssetPaths = '';
 
-      {
-        name: "width",
-        message: "What will the width of the canvas be?",
-        default: 400
-      },
+  var isNotDefaultGeneration = function(answers) { return !answers.defaultGeneration; };
+  var addAdditionalPaths = function(answers) { return isNotDefaultGeneration(answers) && answers.additionalPaths; };
 
-      {
-        name: "height",
-        message: "What will the height of the canvas be?",
-        default: 300
-      },
-
-      {
-        type: 'confirm',
-        name: 'defaultGeneration',
-        message: "Generate with default arguments?",
-        default: true
-      },
-
-      {
-        type: 'list',
-        name: "frameworkTag",
-        message: "Which branch of game-builder would you like to use?",
-        choices: ['latest', 'master'],
-        default: 0,
-        when: isNotDefaultGeneration
-      },  
-
-      {
-        name: "frameworkLocation",
-        message: "What will be the root of game-builder?",
-        default: this.frameworkLocation,
-        when: isNotDefaultGeneration
-      },
-
-      {
-        name: "libLocation",
-        message: "Where should bower dependencies be downloaded?",
-        default: this.libLocation,
-        when: isNotDefaultGeneration
-      },
-
-      {
-        type: 'confirm',
-        name: "additionalPaths",
-        message: "Would you like to add additional paths for reasources?",
-        default: false,
-        when: isNotDefaultGeneration
-      },
-
-      {
-        name: "additionalSrcPaths",
-        message: "What are the additional src paths? (Add more paths as a comma separate list)",
-        default: this.additionalSrcPaths,
-        when: addAdditionalPaths
-      },
-
-      {
-        name: "additionalAssetPaths",
-        message: "What are the additional asset paths? (Add more paths as a comma separate list)",
-        default: this.additionalAssetPaths,
-        when: addAdditionalPaths
+  var prompts = [
+    {
+      name: "name",
+      message: "What will the name of your project be?",
+      filter: function(name) { 
+        return _(name).trim().slugify(); 
       }
-    ];
+    },
 
-    this._processPrompt(prompts, cb);
-  }.bind(this));
-};
+    {
+      name: "width",
+      message: "What will the width of the canvas be?",
+      default: 400
+    },
+
+    {
+      name: "height",
+      message: "What will the height of the canvas be?",
+      default: 300
+    },
+
+    {
+      type: 'confirm',
+      name: 'defaultGeneration',
+      message: "Generate with default arguments?",
+      default: true
+    },
+
+    {
+      type: 'list',
+      name: "frameworkTag",
+      message: "Which branch of game-builder would you like to use?",
+      choices: ['latest', 'master'],
+      default: 0,
+      when: isNotDefaultGeneration
+    },  
+
+    {
+      name: "frameworkLocation",
+      message: "What will be the root of game-builder?",
+      default: this.frameworkLocation,
+      when: isNotDefaultGeneration
+    },
+
+    {
+      name: "libLocation",
+      message: "Where should bower dependencies be downloaded?",
+      default: this.libLocation,
+      when: isNotDefaultGeneration
+    },
+
+    {
+      type: 'confirm',
+      name: "additionalPaths",
+      message: "Would you like to add additional paths for reasources?",
+      default: false,
+      when: isNotDefaultGeneration
+    },
+
+    {
+      name: "additionalSrcPaths",
+      message: "What are the additional src paths? (Add more paths as a comma separate list)",
+      default: this.additionalSrcPaths,
+      when: addAdditionalPaths
+    },
+
+    {
+      name: "additionalAssetPaths",
+      message: "What are the additional asset paths? (Add more paths as a comma separate list)",
+      default: this.additionalAssetPaths,
+      when: addAdditionalPaths
+    }
+  ];
+
+  this._processPrompt(prompts, cb);
+}
 
 GameBuilderGenerator.prototype.createFolderStructure = function folderStructure() {
   this.mkdir('assets');

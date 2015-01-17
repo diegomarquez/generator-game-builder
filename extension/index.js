@@ -26,6 +26,32 @@ var ExtensionGenerator = module.exports = function ExtensionGenerator(args, opti
 
 util.inherits(ExtensionGenerator, yeoman.generators.NamedBase);
 
+ExtensionGenerator.prototype._processPrompt = function _processPrompt(prompts, cb) {
+  this.prompt(prompts, function (props) {
+    for(var k in props) {
+      this[k] = props[k];
+    }
+
+    cb();
+  }.bind(this));
+}
+
+ExtensionGenerator.prototype.inquire = function inquire() {
+  var cb = this.async();
+
+  var prompts = [
+	  {
+	    type: 'list',
+	    name: "extensionType",
+	    message: "Where should this extension be executed?",
+	    choices: ['CREATE', 'FOCUS', 'BLUR', 'UPDATE'],
+	    default: 0
+	  }
+  ] 
+
+  this._processPrompt(prompts, cb);
+}
+
 ExtensionGenerator.prototype.files = function files() {
   this.template('_extension.js', this.name + '.js');
 };

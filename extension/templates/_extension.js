@@ -2,14 +2,16 @@ define([<% print(allModules.join(', ')) %>], function(<% print( print(moduleArgu
 	var <% print( _(name).classify() ) %> = <% print( _(mainModule).classify() ) %>.extend({		
 		// Uncomment the type you want this extension to have
 		type: function() {
-			// return gb.game.CREATE; 
-			// return gb.game.BLUR; 
-			// return gb.game.FOCUS;
-			// return gb.game.UPDATE;
+			return Gb.game.<% print(extensionType) %>
 		},
 
 		// This is the method this extension will execute to make your stuff happen.
 		execute: function() {
+	
+		},
+
+		// This method should undo what this extensions does should it be removed
+		destroy: function() {
 	
 		}
 	});
