@@ -45,7 +45,7 @@ ExtensionGenerator.prototype.inquire = function inquire() {
 	    name: "extensionType",
 	    message: "Where should this extension be executed?",
 	    choices: ['CREATE', 'FOCUS', 'BLUR', 'UPDATE'],
-	    default: 0
+	    default: 'CREATE'
 	  }
   ] 
 

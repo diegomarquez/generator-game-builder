@@ -103,7 +103,7 @@ GameBuilderGenerator.prototype.inquire = function inquire() {
       name: "frameworkTag",
       message: "Which branch of game-builder would you like to use?",
       choices: ['latest', 'master'],
-      default: 0,
+      default: 'latest',
       when: isNotDefaultGeneration
     },  
 
