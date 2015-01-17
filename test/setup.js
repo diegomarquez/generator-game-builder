@@ -78,6 +78,10 @@ assertSuperCallExistance = function(file, method, arg) {
 	assert.fileContent(file, new RegExp(method + ": function\\((" + arg + ")?\\) {\\n?(.*?)this\\._super\\((" + arg + ")?\\)"));
 }
 
+rejectSuperCallExistance = function(file, method, arg) {
+	assert.noFileContent(file, new RegExp(method + ": function\\((" + arg + ")?\\) {\\n?(.*?)this\\._super\\((" + arg + ")?\\)"));
+}
+
 assertFileExists = function(filepath) {	
 	assert.ok(fileExistsWithCaseSync(filepath), filepath + ', no such file or directory');
 }

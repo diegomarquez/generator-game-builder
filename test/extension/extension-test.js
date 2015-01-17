@@ -83,14 +83,17 @@ describe('SubGenerator Extension', function () {
 
 		it(' :type', function() {
 			assertMethodExistance('myextension.js', 'type', "");
+			rejectSuperCallExistance('myextension.js', 'type');
 		});
 
 		it(' :execute', function() {
 			assertMethodExistance('myextension.js', 'execute', "");
+			rejectSuperCallExistance('myextension.js', 'execute');
 		});
 
 		it(' :destroy', function() {
 			assertMethodExistance('myextension.js', 'destroy', "");
+			rejectSuperCallExistance('myextension.js', 'destroy');
 		});
 	});
 });

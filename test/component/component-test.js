@@ -109,7 +109,8 @@ describe('SubGenerator Component', function () {
 		});
 
 		it(' :debug_draw', function() {
-			assertMethodExistance('mycomponent.js', 'destroy', "context, viewport, draw");
+			assertMethodExistance('mycomponent.js', 'debug_draw', "context, viewport, draw");
+			rejectSuperCallExistance('mycomponent.js', 'debug_draw');
 		});
 	});
 });

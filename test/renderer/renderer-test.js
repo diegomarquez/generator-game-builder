@@ -154,8 +154,8 @@ describe('SubGenerator Renderer', function () {
 		});
 
 		it(' :debug_draw', function() {
-			assertMethodExistance('myrenderer.js', 'draw', "context, viewport, draw");
-			// assertSuperCallExistance('myrenderer.js', 'draw', "context, viewport, draw");
+			assertMethodExistance('myrenderer.js', 'debug_draw', "context, viewport, draw");
+			rejectSuperCallExistance('myrenderer.js', 'debug_draw');
 		});
 	});
 });
