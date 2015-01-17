@@ -25,22 +25,29 @@ describe('SubGenerator Extension', function () {
 
 	describe('file creation with dependencies', function() {
 		it('adds 1 dependency', function (done) {
-			createSubGenerator('extension', ['MyExtension', 'dep1'], function() {
-				assertDependencies('myextension.js', ["extension", "gb", "dep1"]);
+			createSubGeneratorWithPrompt('extension', ['MyExtension'], { dependencies: 'dep1' }, function() {
+				assertDependencies('myextension.js', ["extension", "dep1", "gb"]);
 				done();	
 			});
 	  });
 
 	  it('adds 2 dependencies', function (done) {
-			createSubGenerator('extension', ['MyExtension', 'dep1', 'dep2'], function() {
-				assertDependencies('myextension.js', ["extension", "gb", "dep1", "dep2"]);
+			createSubGeneratorWithPrompt('extension', ['MyExtension'], { dependencies: 'dep1, dep2' }, function() {
+				assertDependencies('myextension.js', ["extension", "dep1", "dep2", "gb"]);
 				done();	
 			});
 	  });
 
 	  it('adds 3 dependencies', function (done) {
-			createSubGenerator('extension', ['MyExtension', 'dep1', 'dep2', 'dep3'], function() {
-				assertDependencies('myextension.js', ["extension", "gb", "dep1", "dep2", "dep3"]);
+			createSubGeneratorWithPrompt('extension', ['MyExtension'], { dependencies: 'dep1, dep2, dep3' }, function() {
+				assertDependencies('myextension.js', ["extension", "dep1", "dep2", "dep3", "gb"]);
+				done();	
+			});
+	  });
+
+	  it('spaces before and after dependency names are ignored', function (done) {
+			createSubGeneratorWithPrompt('extension', ['MyExtension'], { dependencies: '    dep 1   ,    dep 2   ,    dep 3    ' }, function() {
+				assertDependencies('myextension.js', ["extension", "dep 1", "dep 2", "dep 3", "gb"]);
 				done();	
 			});
 	  });

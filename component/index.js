@@ -1,72 +1,33 @@
 'use strict';
-var util = require('util');
-var yeoman = require('yeoman-generator');
 
-var _ = require('lodash');
-_.str = require('underscore.string');
-_.mixin(_.str.exports());
+var SubGenerator = require('../sub-generator');
 
-var ComponentGenerator = module.exports = function ComponentGenerator(args, options, config) {
-  yeoman.generators.NamedBase.apply(this, arguments);
+var componentGenerator = {
+	constructor: function () {
+    SubGenerator.generator.apply(this, arguments); 
 
-  this.name = _(this.name).clean().slugify().dasherize(); 
-};
+    this._setMainModule('component');
+  },
 
-util.inherits(ComponentGenerator, yeoman.generators.NamedBase);
+  _defaultDependencies: function(dependencies) {
+		return [];
+	},
 
-ComponentGenerator.prototype._processPrompt = function _processPrompt(prompts, cb) {
-  this.prompt(prompts, function (props) {
-    for(var k in props) {
-      this[k] = props[k];
-    }
+	_getPrompt: function() {
+		return [
+			{
+	      name: "dependencies",
+	      message: "What dependencies does it have? (Add them as a comma separated list)",
+	      default: ""
+	    }
+	  ];
+	},
 
-    cb();
-  }.bind(this));
-}
-
-ComponentGenerator.prototype.inquire = function inquire() {
-  var cb = this.async();
-
-  var prompts = [
-    {
-      name: "mainModule",
-      message: "What module does this component extend?",
-      default: "component"
-    },
-
-    {
-      name: "dependencies",
-      message: "What other dependencies does it have? (Add them as a comma separated list)",
-      default: ""
-    }
-  ];
-
-  this._processPrompt(prompts, cb);
-}
-
-ComponentGenerator.prototype.files = function files() {
-	this.dependencies = _(this.dependencies).clean().value().replace(/ /g, "");
-
-	if (_(this.dependencies).isBlank().value()) {
-		this.allModules = [this.mainModule];
-	} else {
-		this.allModules = [this.mainModule].concat(_(this.dependencies).value().split(','));	
+	_createFiles: function() {
+    this.fs.copyTpl(this.templatePath('_component.js'), this.destinationPath(this.name + '.js'), this);
 	}
-
-  this.moduleArguments = _.map(this.allModules, function(element) {
-  	return _(element).classify();
-  });
-
-  this.allModules = _.map(this.allModules, function(element) {
-  	return '"' + element + '"';
-  });
-
-  this.template('_component.js', this.name + '.js');
 }
 
+SubGenerator.addInterfaceMethods(componentGenerator);
 
-
-
-
-
-
+module.exports = SubGenerator.generator.extend(componentGenerator);

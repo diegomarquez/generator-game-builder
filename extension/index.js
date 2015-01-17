@@ -1,59 +1,43 @@
 'use strict';
-var util = require('util');
-var yeoman = require('yeoman-generator');
 
-var _ = require('lodash');
-_.str = require('underscore.string');
-_.mixin(_.str.exports());
+var SubGenerator = require('../sub-generator');
 
-var ExtensionGenerator = module.exports = function ExtensionGenerator(args, options, config) {
-  yeoman.generators.NamedBase.apply(this, arguments);
-  
-  this.name = _(this.name).trim().slugify().dasherize();
+var extensionGenerator = {
+	constructor: function () {
+    SubGenerator.generator.apply(this, arguments); 
 
-  this.mainModule = 'extension';
+    this._setMainModule('extension');
+  },
 
-  this.allModules = [this.mainModule, 'gb'].concat(args.slice(1));  
+  _defaultDependencies: function(dependencies) {
+  	dependencies.push("gb");
+	},
 
-  this.moduleArguments = _.map(this.allModules, function(element) {
-  	return _(element).classify();
-  });
+	_getPrompt: function() {
+		return [
+			{
+		    type: 'list',
+		    name: "extensionType",
+		    message: "Where should this extension be executed?",
+		    choices: ['CREATE', 'FOCUS', 'BLUR', 'UPDATE'],
+		    default: 'CREATE'
+		  },
+			{
+	      name: "dependencies",
+	      message: "What dependencies does it have? (Add them as a comma separated list)",
+	      default: ""
+	    }
+	  ];
+	},
 
-  this.allModules = _.map(this.allModules, function(element) {
-  	return '"' + element + '"';
-  });
-};
-
-util.inherits(ExtensionGenerator, yeoman.generators.NamedBase);
-
-ExtensionGenerator.prototype._processPrompt = function _processPrompt(prompts, cb) {
-  this.prompt(prompts, function (props) {
-    for(var k in props) {
-      this[k] = props[k];
-    }
-
-    cb();
-  }.bind(this));
+	_createFiles: function() {
+    this.fs.copyTpl(this.templatePath('_extension.js'), this.destinationPath(this.name + '.js'), this);
+	}
 }
 
-ExtensionGenerator.prototype.inquire = function inquire() {
-  var cb = this.async();
+SubGenerator.addInterfaceMethods(extensionGenerator);
 
-  var prompts = [
-	  {
-	    type: 'list',
-	    name: "extensionType",
-	    message: "Where should this extension be executed?",
-	    choices: ['CREATE', 'FOCUS', 'BLUR', 'UPDATE'],
-	    default: 'CREATE'
-	  }
-  ] 
+module.exports = SubGenerator.generator.extend(extensionGenerator);
 
-  this._processPrompt(prompts, cb);
-}
-
-ExtensionGenerator.prototype.files = function files() {
-  this.template('_extension.js', this.name + '.js');
-};
 
 

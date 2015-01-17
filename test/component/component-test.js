@@ -23,17 +23,7 @@ describe('SubGenerator Component', function () {
 	  });
 	});
 
-	describe('file creation with mainModule argument', function() {
-		beforeEach(function (done) {
-			createSubGeneratorWithPrompt('component', ['myComponent'], {mainModule: 'custom-component'}, done);
-		});
-
-		it('creates a file with a custom module to extend from', function () {
-			assertDependencies('mycomponent.js', ["custom-component"]);
-	  });
-	});
-
-	describe('file creation with dependencies argument', function() {
+	describe('file creation with dependencies', function() {
 		it('adds 1 dependency', function (done) {
 			createSubGeneratorWithPrompt('component', ['myComponent'], {dependencies: 'dep1'}, function() {
 				assertDependencies('mycomponent.js', ["component", "dep1"]);
@@ -55,9 +45,9 @@ describe('SubGenerator Component', function () {
 			});
 	  });
 
-	  it('cleans up white space in argument', function (done) {
-			createSubGeneratorWithPrompt('component', ['myComponent'], {dependencies: 'dep11,      dep22     ,    dep33      '}, function() {
-				assertDependencies('mycomponent.js', ["component", "dep11", "dep22", "dep33"]);
+	  it('cleans up white space in dependencies', function (done) {
+			createSubGeneratorWithPrompt('component', ['myComponent'], {dependencies: 'dep1 1,      dep2 2     ,    dep3 3      '}, function() {
+				assertDependencies('mycomponent.js', ["component", "dep1 1", "dep2 2", "dep3 3"]);
 				done();	
 			});
 	  });

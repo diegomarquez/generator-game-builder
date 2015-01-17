@@ -1,67 +1,43 @@
 'use strict';
-var util = require('util');
-var yeoman = require('yeoman-generator');
 
-var _ = require('lodash');
-_.str = require('underscore.string');
-_.mixin(_.str.exports());
+var SubGenerator = require('../sub-generator');
 
-var GameObjectGenerator = module.exports = function GameObjectGenerator(args, options, config) {
-  yeoman.generators.NamedBase.apply(this, arguments);
+var gameObjectGenerator = {
+	constructor: function () {
+    SubGenerator.generator.apply(this, arguments); 
+  },
 
-  this.name = _(this.name).trim().slugify().dasherize();
-};
+  _defaultDependencies: function(dependencies) {
+  	return null;
+	},
 
-util.inherits(GameObjectGenerator, yeoman.generators.NamedBase);
+	_getPrompt: function() {
+		return [
+			{
+	    	type: 'list',
+	      name: "mainModule",
+	      message: "What module does this game object extend?",
+	      choices: ['game-object', 'game-object-container'],
+	      default: 'game-object'
+	    },
 
-GameObjectGenerator.prototype._processPrompt = function _processPrompt(prompts, cb) {
-  this.prompt(prompts, function (props) {
-    for(var k in props) {
-      this[k] = props[k];
-    }
+	    {
+	      name: "dependencies",
+	      message: "What other dependencies does it have? (Add them as a comma separated list)",
+	      default: ""
+	    }
+	  ];
+	},
 
-    cb();
-  }.bind(this));
-}
-
-GameObjectGenerator.prototype.inquire = function inquire() {
-  var cb = this.async();
-
-  var prompts = [
-    {
-    	type: 'list',
-      name: "mainModule",
-      message: "What module does this game object extend?",
-      choices: ['game-object', 'game-object-container'],
-      default: 'game-object'
-    },
-
-    {
-      name: "dependencies",
-      message: "What other dependencies does it have? (Add them as a comma separated list)",
-      default: ""
-    }
-  ];
-
-  this._processPrompt(prompts, cb);
-}
-
-GameObjectGenerator.prototype.files = function files() {
-	this.dependencies = _(this.dependencies).clean().value().replace(/ /g, "");
-
-	if (_(this.dependencies).isBlank().value()) {
-		this.allModules = [this.mainModule];
-	} else {
-		this.allModules = [this.mainModule].concat(_(this.dependencies).value().split(','));	
+	_createFiles: function() {
+    this.fs.copyTpl(this.templatePath('_game_object.js'), this.destinationPath(this.name + '.js'), this);
 	}
+}
 
-  this.moduleArguments = _.map(this.allModules, function(element) {
-  	return _(element).classify();
-  });
+SubGenerator.addInterfaceMethods(gameObjectGenerator);
 
-  this.allModules = _.map(this.allModules, function(element) {
-  	return '"' + element + '"';
-  });
+module.exports = SubGenerator.generator.extend(gameObjectGenerator);
 
-  this.template('_game_object.js', this.name + '.js');
-};
+
+
+

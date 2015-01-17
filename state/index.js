@@ -1,29 +1,38 @@
 'use strict';
-var util = require('util');
-var yeoman = require('yeoman-generator');
 
-var _ = require('lodash');
-_.str = require('underscore.string');
-_.mixin(_.str.exports());
+var SubGenerator = require('../sub-generator');
 
-var StateGenerator = module.exports = function StateGenerator(args, options, config) {
-  yeoman.generators.NamedBase.apply(this, arguments);
-  
-  this.name = _(this.name).trim().slugify().dasherize();
+var stateGenerator = {
+	constructor: function () {
+    SubGenerator.generator.apply(this, arguments); 
+  },
 
-  this.moduleRequires = _.map(args.slice(1), function(element) {
-  	return {
-  		variableName: _(element).trim().slugify().underscored(),
-  		moduleName: element
-  	}
-  });
-};
+  _defaultDependencies: function(dependencies) {
+  	return null;
+	},
 
-util.inherits(StateGenerator, yeoman.generators.NamedBase);
+	_getPrompt: function() {
+		return [
+			{
+	      name: "dependencies",
+	      message: "What dependencies does it have? (Add them as a comma separated list)",
+	      default: ""
+	    }
+	  ];
+	},
 
-StateGenerator.prototype.files = function files() {
-  this.template('_state.js', this.name + '.js');
-};
+	_createFiles: function() {
+    this.fs.copyTpl(this.templatePath('_state.js'), this.destinationPath(this.name + '.js'), this);
+	}
+}
+
+SubGenerator.addInterfaceMethods(stateGenerator);
+
+module.exports = SubGenerator.generator.extend(stateGenerator);
+
+
+
+
 
 
 
