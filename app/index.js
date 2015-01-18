@@ -11,201 +11,221 @@ _.mixin(_.str.exports());
 
 art.Figlet.fontPath = __dirname + '/../fonts/';
 
-var GameBuilderGenerator = module.exports = function GameBuilderGenerator(args, options, config) {
-  yeoman.generators.Base.apply(this, arguments);
+module.exports = yeoman.generators.Base.extend({
+  constructor: function () {
+    yeoman.generators.Base.apply(this, arguments);
+  },
 
-  this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
+  initializing: function() {
+  	this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
 
-  this.on('end', function () {
-    this.installDependencies({ 
-    	skipInstall: options['skip-install'], 
-    	skipMessage: options['skip-message']
-    });
-  });
-};
+  	this.frameworkTag         = 'latest';
+	  this.frameworkLocation    = './game-builder';
+	  this.libLocation          = './lib';
+	  this.additionalSrcPaths   = '';
+	  this.additionalAssetPaths = '';
 
-util.inherits(GameBuilderGenerator, yeoman.generators.Base);
+  	if (this.options['skip-welcome']) return;
 
-GameBuilderGenerator.prototype._processPrompt = function _processPrompt(prompts, cb) {
-  this.prompt(prompts, function (props) {
-    for(var k in props) {
-      this[k] = props[k];
-    }
+		var cb = this.async();
 
-    cb();
-  }.bind(this));
-}
+		this.log('Hello, welcome too...');
 
-GameBuilderGenerator.prototype.welcome = function welcome() {
-	if (this.options['skip-welcome']) return;
+	  art.font('GAME', 'smslant', 'red')
+	     .font('-', 'smslant', 'yellow')
+	     .font('BUILDER', 'smslant', 'red')
+	     .font( ' .v1', 'smslant', 'yellow', 
 
-	var cb = this.async();
+	    function(rendered){
+			  this.log(rendered);
+			  this.log('A generator by ' + 'Diego Enrique Marquez'.red.bold + ' (https://github.com/diegomarquez)');
+			  this.log('Powered by ' + 'Yeoman'.yellow.bold + ' (http://yeoman.io/)');
+			  this.log(); 
 
-	this.log('Hello, welcome too...');
+			  cb();
+		}.bind(this));
+  },
 
-  art.font('GAME', 'smslant', 'red')
-     .font('-', 'smslant', 'yellow')
-     .font('BUILDER', 'smslant', 'red')
-     .font( ' .v1', 'smslant', 'yellow', 
+  configuring: function() {
 
-    function(rendered){
-		  this.log(rendered);
-		  this.log('A generator by ' + 'Diego Enrique Marquez'.red.bold + ' (https://github.com/diegomarquez)');
-		  this.log('Powered by ' + 'Yeoman'.yellow.bold + ' (http://yeoman.io/)');
-		  this.log(); 
+  },
 
-		  cb();
-	}.bind(this));
-}
+  default: function() {
 
-GameBuilderGenerator.prototype.inquire = function inquire() {
-  var cb = this.async();
+  },
 
-  this.frameworkTag         = 'latest';
-  this.frameworkLocation    = './game-builder';
-  this.libLocation          = './lib';
-  this.additionalSrcPaths   = '';
-  this.additionalAssetPaths = '';
+  conflicts: function() {
 
-  var isNotDefaultGeneration = function(answers) { return !answers.defaultGeneration; };
-  var addAdditionalPaths = function(answers) { return isNotDefaultGeneration(answers) && answers.additionalPaths; };
+  },
 
-  var prompts = [
-    {
-      name: "name",
-      message: "What will the name of your project be?",
-      filter: function(name) { 
-        return _(name).trim().slugify(); 
-      }
-    },
+  install: function() {
+  	if (this.options['skip-install']) return; 
+    	
+		this.npmInstall();
+  }, 
 
-    {
-      name: "width",
-      message: "What will the width of the canvas be?",
-      default: 400
-    },
+  end: function() {
+  	if (this.options['skip-install']) return;
 
-    {
-      name: "height",
-      message: "What will the height of the canvas be?",
-      default: 300
-    },
+  	this.spawnCommand('grunt');
+  },
 
-    {
-      type: 'confirm',
-      name: 'defaultGeneration',
-      message: "Generate with default arguments?",
-      default: true
-    },
+  prompting: function () {
+  	var cb = this.async();
 
-    {
-      type: 'list',
-      name: "frameworkTag",
-      message: "Which branch of game-builder would you like to use?",
-      choices: ['latest', 'master'],
-      default: 'latest',
-      when: isNotDefaultGeneration
-    },  
+  	var isNotDefaultGeneration = function(answers) { 
+  		return !answers.defaultGeneration; 
+  	}
 
-    {
-      name: "frameworkLocation",
-      message: "What will be the root of game-builder?",
-      default: this.frameworkLocation,
-      when: isNotDefaultGeneration
-    },
+		var addAdditionalPaths = function(answers) { 
+			return isNotDefaultGeneration(answers) && answers.additionalPaths; 
+		}
 
-    {
-      name: "libLocation",
-      message: "Where should bower dependencies be downloaded?",
-      default: this.libLocation,
-      when: isNotDefaultGeneration
-    },
+		var prompts = [
+	    {
+	      name: "name",
+	      message: "What will the name of your project be?",
+	      filter: function(name) { 
+	        return _(name).trim().slugify(); 
+	      }
+	    },
 
-    {
-      type: 'confirm',
-      name: "additionalPaths",
-      message: "Would you like to add additional paths for reasources?",
-      default: false,
-      when: isNotDefaultGeneration
-    },
+	    {
+	      name: "width",
+	      message: "What will the width of the canvas be?",
+	      default: 400
+	    },
 
-    {
-      name: "additionalSrcPaths",
-      message: "What are the additional src paths? (Add more paths as a comma separate list)",
-      default: this.additionalSrcPaths,
-      when: addAdditionalPaths
-    },
+	    {
+	      name: "height",
+	      message: "What will the height of the canvas be?",
+	      default: 300
+	    },
 
-    {
-      name: "additionalAssetPaths",
-      message: "What are the additional asset paths? (Add more paths as a comma separate list)",
-      default: this.additionalAssetPaths,
-      when: addAdditionalPaths
-    }
-  ];
+	    {
+	      type: 'confirm',
+	      name: 'defaultGeneration',
+	      message: "Generate with default arguments?",
+	      default: true
+	    },
 
-  this._processPrompt(prompts, cb);
-}
+	    {
+	      type: 'list',
+	      name: "frameworkTag",
+	      message: "Which branch of game-builder would you like to use?",
+	      choices: ['latest', 'master'],
+	      default: 'latest',
+	      when: isNotDefaultGeneration
+	    },  
 
-GameBuilderGenerator.prototype.createFolderStructure = function folderStructure() {
-  this.mkdir('assets');
-  this.mkdir('config');
-  this.mkdir('src');
-  this.mkdir('styles');
-  this.mkdir('styles/css');
-  this.mkdir('styles/less');
-  this.mkdir('styles/less/main');
-  this.mkdir('tasks');  
+	    {
+	      name: "frameworkLocation",
+	      message: "What will be the root of game-builder?",
+	      default: this.frameworkLocation,
+	      when: isNotDefaultGeneration
+	    },
 
-  _.forEach(this.additionalSrcPaths.split(','), function(path){
-    this.mkdir(path);
-  }.bind(this));
+	    {
+	      name: "libLocation",
+	      message: "Where should bower dependencies be downloaded?",
+	      default: this.libLocation,
+	      when: isNotDefaultGeneration
+	    },
 
-  _.forEach(this.additionalAssetPaths.split(','), function(path){
-    this.mkdir(path);
-  }.bind(this));
-};
+	    {
+	      type: 'confirm',
+	      name: "additionalPaths",
+	      message: "Would you like to add additional paths for reasources?",
+	      default: false,
+	      when: isNotDefaultGeneration
+	    },
 
-GameBuilderGenerator.prototype.copyFiles = function projectfiles() {
-  // ROOT
-  this.template('_.bowerrc', '.bowerrc');
-  this.template('_.gitignore', '.gitignore');
-  this.template('_bower.json', 'bower.json');
-  this.template('_index.html', 'index.html');
-  this.template('_main.js', 'main.js');
-  this.template('_package.json', 'package.json');
-  this.template('_README.md', 'README.md');
-  this.copy('Gruntfile.js', 'Gruntfile.js');
+	    {
+	      name: "additionalSrcPaths",
+	      message: "What are the additional src paths? (Add more paths as a comma separate list)",
+	      default: this.additionalSrcPaths,
+	      when: addAdditionalPaths
+	    },
 
-  // ASSETS
-  this.copy('assets/DELETEME.md', 'assets/DELETEME.md');
+	    {
+	      name: "additionalAssetPaths",
+	      message: "What are the additional asset paths? (Add more paths as a comma separate list)",
+	      default: this.additionalAssetPaths,
+	      when: addAdditionalPaths
+	    }
+	  ];
 
-  // CONFIG
-  this.copy('config/font-data.json', 'config/font-data.json');
-  this.copy('config/remote-assets.json', 'config/remote-assets.json');
-  this.copy('config/shim-config.json', 'config/shim-config.json');
-  this.template('config/_lib-paths.json', 'config/lib-paths.json');
+	  this._processPrompt(prompts, cb);
+  },
 
-  // SRC
-  this.copy('src/DELETEME.md', 'src/DELETEME.md'); 
+  writing: function() {
+  	this.mkdir('assets');
+  	this.mkdir('config');
+  	this.mkdir('src');
+  	this.mkdir('styles');
+  	this.mkdir('styles/css');
+  	this.mkdir('styles/less');
+  	this.mkdir('styles/less/main');
+  	this.mkdir('tasks');
 
-  // STYLES
-  // CSS
-  this.copy('styles/css/DELETEME.md', 'styles/css/DELETEME.md');
-  this.copy('styles/css/main.css', 'styles/css/main.css');
-  // LESS
-  this.copy('styles/less/DELETEME.md', 'styles/less/DELETEME.md');
-  this.copy('styles/less/main/style.less', 'styles/less/main/style.less');
+  	_.forEach(this.additionalSrcPaths.split(','), function(path){
+	    this.mkdir(path);
+	  }.bind(this));
 
-  // TASKS
- 	// TEMPLATES
- 	this.copy('tasks/templates/data-module-template.txt', 'tasks/templates/data-module-template.txt');
- 	this.copy('tasks/templates/index-template.txt', 'tasks/templates/index-template.txt');
- 	this.copy('tasks/templates/requirejs-config-template.txt', 'tasks/templates/requirejs-config-template.txt');
- 	// LOCAL TASKS
- 	this.copy('tasks/build-index.js', 'tasks/build-index.js');
- 	this.copy('tasks/create-config.js', 'tasks/create-config.js');
- 	this.copy('tasks/data-module.js', 'tasks/data-module.js');
- 	this.copy('tasks/local-assets.js', 'tasks/local-assets.js');
- 	this.copy('tasks/make-dir.js', 'tasks/make-dir.js');
-};
+	  _.forEach(this.additionalAssetPaths.split(','), function(path){
+	    this.mkdir(path);
+	  }.bind(this));
+
+	  // ROOT
+	  this.template('_.bowerrc', '.bowerrc');
+	  this.template('_.gitignore', '.gitignore');
+	  this.template('_bower.json', 'bower.json');
+	  this.template('_index.html', 'index.html');
+	  this.template('_main.js', 'main.js');
+	  this.template('_package.json', 'package.json');
+	  this.template('_README.md', 'README.md');
+	  this.copy('Gruntfile.js', 'Gruntfile.js');
+
+	  // ASSETS
+	  this.copy('assets/DELETEME.md', 'assets/DELETEME.md');
+
+	  // CONFIG
+	  this.copy('config/font-data.json', 'config/font-data.json');
+	  this.copy('config/remote-assets.json', 'config/remote-assets.json');
+	  this.copy('config/shim-config.json', 'config/shim-config.json');
+	  this.template('config/_lib-paths.json', 'config/lib-paths.json');
+
+	  // SRC
+	  this.copy('src/DELETEME.md', 'src/DELETEME.md'); 
+
+	  // STYLES
+	  // CSS
+	  this.copy('styles/css/DELETEME.md', 'styles/css/DELETEME.md');
+	  this.copy('styles/css/main.css', 'styles/css/main.css');
+	  // LESS
+	  this.copy('styles/less/DELETEME.md', 'styles/less/DELETEME.md');
+	  this.copy('styles/less/main/style.less', 'styles/less/main/style.less');
+
+	  // TASKS
+	 	// TEMPLATES
+	 	this.copy('tasks/templates/data-module-template.txt', 'tasks/templates/data-module-template.txt');
+	 	this.copy('tasks/templates/index-template.txt', 'tasks/templates/index-template.txt');
+	 	this.copy('tasks/templates/requirejs-config-template.txt', 'tasks/templates/requirejs-config-template.txt');
+	 	// LOCAL TASKS
+	 	this.copy('tasks/build-index.js', 'tasks/build-index.js');
+	 	this.copy('tasks/create-config.js', 'tasks/create-config.js');
+	 	this.copy('tasks/data-module.js', 'tasks/data-module.js');
+	 	this.copy('tasks/local-assets.js', 'tasks/local-assets.js');
+	 	this.copy('tasks/make-dir.js', 'tasks/make-dir.js');
+  },
+
+  _processPrompt: function (prompts, cb) {
+	  this.prompt(prompts, function (props) {
+	    for(var k in props) {
+	      this[k] = props[k];
+	    }
+
+	    cb();
+	  }.bind(this));
+	}
+})
