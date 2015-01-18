@@ -185,7 +185,7 @@ module.exports = function(grunt) {
     'requirejs': {
       'options': {
         baseUrl: './',
-        name: t('<%=lib %>/almond/almond', {data: {p:p}}),
+        name: t('<%= p.lib %>/almond/almond', {data: {p:p}}),
         mainConfigFile: generatedDir + 'config.js',
         include: ['pre-load', 'main'],
         wrapShim: true,
