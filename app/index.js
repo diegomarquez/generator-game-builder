@@ -34,7 +34,7 @@ module.exports = yeoman.generators.Base.extend({
 	  art.font('GAME', 'smslant', 'red')
 	     .font('-', 'smslant', 'yellow')
 	     .font('BUILDER', 'smslant', 'red')
-	     .font( ' .v1', 'smslant', 'yellow', 
+	     .font(' .v1', 'smslant', 'yellow', 
 
 	    function(rendered){
 			  this.log(rendered);
@@ -58,16 +58,43 @@ module.exports = yeoman.generators.Base.extend({
 
   },
 
-  install: function() {
-  	if (this.options['skip-install']) return; 
-    	
-		this.npmInstall();
+  install: {
+  	node: function() {
+  		if (this.options['skip-install']) return;
+
+	  	this.log('\nInstalling node dependencies ...\n'.yellow);
+
+	  	var cb = this.async();
+
+			this.spawnCommand('npm', ['install']).on('exit', function (err) {
+				this.log('\nnode dependencies installed ✓\n'.green.bold);
+				cb();
+			}.bind(this));
+  	},
+
+  	setup: function() {
+  		if (this.options['skip-install']) return;
+
+	  	this.log('\nSetting up the project ...\n'.yellow);
+
+			var cb = this.async();  		
+
+			this.spawnCommand('grunt', []).on('exit', function (err) {
+				cb();
+			}.bind(this));
+  	}
   }, 
 
   end: function() {
   	if (this.options['skip-install']) return;
 
-  	this.spawnCommand('grunt');
+		var cb = this.async();
+
+	  art.font('BYE!', 'smslant', 'green', 
+	    function(rendered) {
+			  this.log(rendered); 
+			  cb();
+			}.bind(this));
   },
 
   prompting: function () {
